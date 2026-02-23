@@ -1,4 +1,4 @@
-<FilesMatch "^(config|config\.example|helpers)\.php$">
+<FilesMatch "^(config|helpers)\.php$">
     <IfModule mod_authz_core.c>
         Require all denied
     </IfModule>
