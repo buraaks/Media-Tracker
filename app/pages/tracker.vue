@@ -4,7 +4,7 @@
 
     <div class="max-w-275 mx-auto px-8 py-8 max-sm:px-4 max-sm:py-6">
       <!-- Category Title + Import -->
-      <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center justify-between mb-6 max-sm:flex-col max-sm:items-start max-sm:gap-3">
         <div class="flex items-center gap-3">
           <h1 class="text-white/90 text-xl font-bold">{{ categoryTitle }}</h1>
           <span
@@ -16,7 +16,7 @@
         </div>
 
         <button
-          class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white/40 hover:text-white/70 bg-white/[0.03] hover:bg-white/[0.06] border border-white/6 hover:border-white/10 rounded-lg transition-all duration-200 cursor-pointer"
+          class="flex items-center gap-1.5 px-3 py-1.5 max-sm:py-2 max-sm:px-4 text-xs font-medium text-white/40 hover:text-white/70 bg-white/[0.03] hover:bg-white/[0.06] border border-white/6 hover:border-white/10 rounded-lg transition-all duration-200 cursor-pointer"
           @click="importOpen = true"
         >
           <UIcon :name="importIcon" class="size-3.5" />

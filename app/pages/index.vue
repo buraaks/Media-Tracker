@@ -10,7 +10,7 @@
           </svg>
           <span class="text-white/90 font-semibold text-sm tracking-wide">{{ $t('app.name') }}</span>
         </div>
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 max-sm:gap-2">
           <!-- Language Switcher -->
           <button
             class="px-2.5 py-1.5 text-xs font-medium text-white/40 hover:text-white/70 bg-white/[0.03] hover:bg-white/[0.06] border border-white/6 hover:border-white/10 rounded-lg transition-all duration-200 cursor-pointer"
@@ -22,20 +22,20 @@
           <NuxtLink
             v-if="isAuthenticated"
             to="/tracker"
-            class="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium rounded-lg transition-all duration-200"
+            class="px-4 py-2 max-sm:px-3 max-sm:text-xs bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium rounded-lg transition-all duration-200"
           >
             {{ $t('home.myList') }}
           </NuxtLink>
           <template v-else>
             <NuxtLink
               to="/login"
-              class="px-4 py-2 text-white/60 hover:text-white text-sm font-medium transition-colors"
+              class="px-4 py-2 max-sm:px-3 max-sm:text-xs text-white/60 hover:text-white text-sm font-medium transition-colors"
             >
               {{ $t('auth.signIn') }}
             </NuxtLink>
             <NuxtLink
               to="/register"
-              class="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium rounded-lg transition-all duration-200"
+              class="px-4 py-2 max-sm:px-3 max-sm:text-xs bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium rounded-lg transition-all duration-200"
             >
               {{ $t('auth.signUp') }}
             </NuxtLink>
@@ -71,7 +71,7 @@
       </div>
 
       <!-- Feature Cards -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 max-w-3xl w-full max-sm:grid-cols-2">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 max-w-3xl w-full">
         <div
           v-for="feature in features"
           :key="feature.key"
@@ -87,9 +87,9 @@
 
     <!-- Footer -->
     <footer class="border-t border-white/6 px-8 py-5 max-sm:px-4">
-      <div class="max-w-275 mx-auto flex items-center justify-between">
+      <div class="max-w-275 mx-auto flex items-center justify-between flex-wrap gap-3">
         <span class="text-white/20 text-xs">&copy; {{ new Date().getFullYear() }} Burak Temur</span>
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1 max-sm:gap-0.5">
           <a
             v-for="link in socialLinks"
             :key="link.label"

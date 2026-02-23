@@ -1,6 +1,6 @@
 <template>
   <div
-    class="group relative flex bg-white/[0.03] border border-white/6 rounded-xl overflow-hidden transition-all duration-300 hover:bg-white/[0.06] hover:border-white/10 hover:shadow-[0_8px_32px_rgba(0,0,0,0.3)] cursor-pointer"
+    class="group relative flex min-h-[120px] max-sm:min-h-[100px] bg-white/[0.03] border border-white/6 rounded-xl overflow-hidden transition-all duration-300 hover:bg-white/[0.06] hover:border-white/10 hover:shadow-[0_8px_32px_rgba(0,0,0,0.3)] cursor-pointer"
     @click="$emit('select', item)"
   >
     <!-- Poster -->

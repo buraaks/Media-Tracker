@@ -5,7 +5,7 @@
       v-if="items.length"
       name="list"
       tag="div"
-      class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
+      class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4"
     >
       <MediaCard
         v-for="item in items"

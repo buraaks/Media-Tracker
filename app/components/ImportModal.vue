@@ -16,8 +16,8 @@
           v-if="open"
           class="absolute inset-0 flex items-center justify-center p-4 pointer-events-none"
         >
-          <div class="relative w-full max-w-md bg-[#1c1c1c] border border-white/8 rounded-2xl shadow-[0_24px_64px_rgba(0,0,0,0.5)] overflow-hidden pointer-events-auto">
-          <div class="p-6">
+          <div class="relative w-full max-w-md bg-[#1c1c1c] border border-white/8 rounded-2xl shadow-[0_24px_64px_rgba(0,0,0,0.5)] overflow-hidden max-h-[calc(100dvh-2rem)] flex flex-col pointer-events-auto">
+          <div class="p-6 max-sm:p-4 overflow-y-auto">
             <!-- Header -->
             <div class="flex items-center justify-between mb-6">
               <div class="flex items-center gap-3">
@@ -221,6 +221,9 @@ async function startImdbImport(): Promise<void> {
 }
 
 watch(() => props.open, (val) => {
+  if (import.meta.client) {
+    document.body.style.overflow = val ? 'hidden' : ''
+  }
   if (!val) {
     anilistUsername.value = ''
     csvFile.value = null

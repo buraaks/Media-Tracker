@@ -50,7 +50,7 @@
             >
             <button
               type="button"
-              class="absolute right-3 top-1/2 -translate-y-1/2 text-white/25 hover:text-white/50 transition-colors cursor-pointer"
+              class="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-white/25 hover:text-white/50 transition-colors cursor-pointer"
               tabindex="-1"
               @click="showPassword = !showPassword"
             >

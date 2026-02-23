@@ -26,7 +26,7 @@
             </button>
 
             <!-- Poster Banner -->
-            <div class="relative h-48 bg-white/5 overflow-hidden">
+            <div class="relative h-48 max-sm:h-32 bg-white/5 overflow-hidden">
               <img
                 v-if="item.image"
                 :src="item.image"
@@ -34,7 +34,7 @@
                 class="absolute inset-0 w-full h-full object-cover opacity-30 blur-sm scale-110"
               >
               <div class="absolute inset-0 bg-gradient-to-t from-[#1c1c1c] via-[#1c1c1c]/60 to-transparent" />
-              <div class="absolute bottom-0 left-0 right-0 p-6 flex items-end gap-4">
+              <div class="absolute bottom-0 left-0 right-0 p-6 max-sm:p-4 flex items-end gap-4">
                 <img
                   v-if="item.image"
                   :src="item.image"
@@ -42,7 +42,7 @@
                   class="w-20 h-28 object-cover rounded-lg border border-white/10 shadow-lg shrink-0"
                 >
                 <div class="min-w-0">
-                  <h2 class="text-white font-bold text-lg leading-snug line-clamp-2">{{ item.title }}</h2>
+                  <h2 class="text-white font-bold text-lg max-sm:text-base leading-snug line-clamp-2">{{ item.title }}</h2>
                   <div class="flex items-center gap-3 mt-1.5 flex-wrap">
                     <span v-if="item.year !== '-'" class="text-white/45 text-sm">{{ item.year }}</span>
                     <span v-if="item.score !== '-'" class="flex items-center gap-1 text-sm">
@@ -55,7 +55,7 @@
             </div>
 
             <!-- Details -->
-            <div class="p-6 space-y-4 overflow-y-auto max-h-[calc(100dvh-2rem-12rem)]">
+            <div class="p-6 max-sm:p-4 space-y-4 overflow-y-auto max-h-[calc(100dvh-2rem-12rem)] max-sm:max-h-[calc(100dvh-2rem-8rem)]">
               <div v-if="item.genre" class="flex flex-wrap gap-1.5">
                 <span
                   v-for="g in item.genre.split(',')"
@@ -130,6 +130,9 @@ const localNotes = ref('')
 watch(() => props.open, (val) => {
   if (val && props.item) {
     localNotes.value = props.item.notes ?? ''
+  }
+  if (import.meta.client) {
+    document.body.style.overflow = val ? 'hidden' : ''
   }
 })
 

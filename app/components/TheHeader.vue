@@ -16,7 +16,7 @@
       </NuxtLink>
 
       <!-- Category Tabs (Desktop) -->
-      <nav class="flex items-center gap-1 max-sm:hidden">
+      <nav class="flex items-center gap-1 max-md:hidden">
         <button
           v-for="tab in tabs"
           :key="tab.key"
@@ -63,11 +63,11 @@
     </div>
 
     <!-- Category Tabs (Mobile) -->
-    <div class="hidden max-sm:flex border-t border-white/5 overflow-x-auto scrollbar-hide">
+    <div class="hidden max-md:flex border-t border-white/5 overflow-x-auto scrollbar-hide">
       <button
         v-for="tab in tabs"
         :key="tab.key"
-        class="flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium whitespace-nowrap transition-all duration-200 cursor-pointer border-b-2 flex-1 justify-center"
+        class="flex items-center gap-1.5 px-3 py-2.5 text-xs font-medium whitespace-nowrap transition-all duration-200 cursor-pointer border-b-2 flex-1 justify-center"
         :class="modelValue === tab.key
           ? 'text-primary-500 border-primary-500 bg-primary-500/5'
           : 'text-white/45 border-transparent hover:text-white/70'"
