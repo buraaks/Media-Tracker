@@ -27,6 +27,21 @@ jobs:
       - name: Bağımlılıkları kur
         run: pnpm install --frozen-lockfile
 
+      - name: API config olustur
+        run: |
+          {
+            echo '<?php'
+            echo 'if (basename($_SERVER["SCRIPT_FILENAME"]) === basename(__FILE__)) {'
+            echo '    http_response_code(403);'
+            echo '    exit;'
+            echo '}'
+            echo "define('DB_HOST', '${{ secrets.DB_HOST }}');"
+            echo "define('DB_NAME', '${{ secrets.DB_NAME }}');"
+            echo "define('DB_USER', '${{ secrets.DB_USER }}');"
+            echo "define('DB_PASS', '${{ secrets.DB_PASS }}');"
+            echo "define('JWT_SECRET', '${{ secrets.JWT_SECRET }}');"
+          } > public/api/config.php
+
       - name: Nuxt static generate
         run: pnpm generate
 
@@ -38,6 +53,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
           port: 21
+          security: loose
           local-dir: .output/public/
           server-dir: ${{ secrets.FTP_PATH }}
           log-level: minimal
