@@ -91,7 +91,7 @@ async function handleSubmit(): Promise<void> {
   const item = await searchMedia(trimmed, props.category)
   if (!item) return
 
-  const added = addItem(item)
+  const added = await addItem(item)
   if (!added) {
     duplicateWarning.value = `"${item.title}" zaten listenizde mevcut.`
     return

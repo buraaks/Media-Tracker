@@ -29,8 +29,14 @@
         <AddMediaForm :category="activeCategory" @added="onAdded" />
       </div>
 
+      <!-- Loading -->
+      <div v-if="!loaded" class="flex items-center justify-center py-16">
+        <UIcon name="i-lucide-loader-2" class="size-6 text-white/20 animate-spin" />
+      </div>
+
       <!-- Media List -->
       <MediaList
+        v-else
         :items="filteredItems"
         :category="activeCategory"
         @select="openDetail"
@@ -54,7 +60,7 @@ const modalOpen = ref(false)
 const importOpen = ref(false)
 const selectedItem = ref<MediaItem | null>(null)
 
-const { loadFromStorage, getByCategory, removeItem } = useMediaStore()
+const { fetchItems, getByCategory, removeItem, loaded } = useMediaStore()
 
 const filteredItems = computed(() => getByCategory(activeCategory.value).value)
 
@@ -62,7 +68,7 @@ const titleMap: Record<MediaCategory, string> = {
   film: 'Filmlerim',
   dizi: 'Dizilerim',
   anime: 'Animelerim',
-  manga: 'Mangalarim'
+  manga: 'Mangalarim',
 }
 
 const categoryTitle = computed(() => titleMap[activeCategory.value])
@@ -76,8 +82,8 @@ function openDetail(item: MediaItem): void {
   modalOpen.value = true
 }
 
-function handleRemove(id: string): void {
-  removeItem(id)
+async function handleRemove(id: string): Promise<void> {
+  await removeItem(id)
 }
 
 function onAdded(): void {
@@ -85,6 +91,6 @@ function onAdded(): void {
 }
 
 onMounted(() => {
-  loadFromStorage()
+  fetchItems()
 })
 </script>

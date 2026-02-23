@@ -253,7 +253,7 @@ export function useMediaApi() {
   async function importFromAniList(
     username: string,
     type: 'ANIME' | 'MANGA',
-    addItem: (item: MediaItem) => boolean
+    addItem: (item: MediaItem) => boolean | Promise<boolean>,
   ): Promise<void> {
     loading.value = true
     error.value = null
@@ -294,7 +294,7 @@ export function useMediaApi() {
 
         try {
           const item = normalizeAniListMedia(media, type)
-          const added = addItem(item)
+          const added = await addItem(item)
           if (added) {
             importProgress.value.imported++
           } else {
@@ -313,7 +313,7 @@ export function useMediaApi() {
 
   async function importFromImdbCsv(
     csvText: string,
-    addItem: (item: MediaItem) => boolean
+    addItem: (item: MediaItem) => boolean | Promise<boolean>,
   ): Promise<void> {
     loading.value = true
     error.value = null
@@ -365,7 +365,7 @@ export function useMediaApi() {
             addedAt: Date.now()
           }
 
-          const added = addItem(item)
+          const added = await addItem(item)
           if (added) {
             importProgress.value.imported++
           } else {

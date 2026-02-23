@@ -28,3 +28,6 @@ pnpm-debug.log*
 .env
 .env.*
 !.env.example
+
+# PHP API config (kullanici sunucuda olusturur)
+public/api/config.php
