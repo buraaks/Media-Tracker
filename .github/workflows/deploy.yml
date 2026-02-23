@@ -57,5 +57,5 @@ jobs:
           local-dir: .output/public/
           server-dir: ${{ secrets.FTP_PATH }}
           log-level: minimal
-          dangerous-clean-slate: false
+          dangerous-clean-slate: true
           timeout: 60000
