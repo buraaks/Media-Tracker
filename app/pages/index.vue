@@ -85,33 +85,23 @@
       </div>
     </section>
 
-    <!-- Contact -->
-    <footer class="border-t border-white/6 py-10 px-8 max-sm:px-4">
-      <div class="max-w-2xl mx-auto text-center">
-        <h2 class="text-white/70 text-sm font-semibold mb-5">{{ $t('home.contact') }}</h2>
-        <div class="flex items-center justify-center gap-4 flex-wrap">
+    <!-- Footer -->
+    <footer class="border-t border-white/6 px-8 py-5 max-sm:px-4">
+      <div class="max-w-275 mx-auto flex items-center justify-between">
+        <span class="text-white/20 text-xs">&copy; {{ new Date().getFullYear() }} Burak Temur</span>
+        <div class="flex items-center gap-2">
           <a
             v-for="link in socialLinks"
             :key="link.label"
             :href="link.url"
             target="_blank"
             rel="noopener"
-            class="flex items-center gap-2 px-4 py-2.5 bg-white/[0.03] border border-white/6 hover:border-white/12 hover:bg-white/[0.06] rounded-lg transition-all duration-200"
+            :title="link.label"
+            class="flex items-center justify-center size-8 rounded-lg hover:bg-white/5 transition-all duration-200"
           >
-            <UIcon :name="link.icon" class="size-4" :style="{ color: link.color }" />
-            <span class="text-sm text-white/55 hover:text-white/80 transition-colors">{{ link.label }}</span>
+            <UIcon :name="link.icon" class="size-4 text-white/25 hover:text-white/50 transition-colors" />
           </a>
-          <button
-            class="flex items-center gap-2 px-4 py-2.5 bg-white/[0.03] border border-white/6 hover:border-white/12 hover:bg-white/[0.06] rounded-lg transition-all duration-200 cursor-pointer"
-            @click="copyEmail"
-          >
-            <UIcon :name="copied ? 'i-lucide-check' : 'i-lucide-mail'" class="size-4" :style="{ color: copied ? '#4ade80' : '#ff3e3e' }" />
-            <span class="text-sm transition-colors" :class="copied ? 'text-emerald-400' : 'text-white/55'">
-              {{ copied ? $t('home.copied') : 'example@gmail.com' }}
-            </span>
-          </button>
         </div>
-        <p class="text-white/20 text-xs mt-6">Burak Temur</p>
       </div>
     </footer>
   </div>
@@ -120,7 +110,6 @@
 <script setup lang="ts">
 const { isAuthenticated } = useAuth()
 const { locale, setLocale } = useI18n()
-const copied = ref(false)
 
 const features = [
   { key: 'film', icon: 'i-lucide-clapperboard', color: '#f87171' },
@@ -130,22 +119,14 @@ const features = [
 ]
 
 const socialLinks = [
-  { label: 'GitHub', icon: 'i-simple-icons-github', url: 'https://github.com/example', color: '#e6edf3' },
-  { label: 'LinkedIn', icon: 'i-simple-icons-linkedin', url: 'https://www.linkedin.com/in/example/', color: '#0a66c2' },
-  { label: 'Instagram', icon: 'i-simple-icons-instagram', url: 'https://www.instagram.com/example', color: '#e4405f' },
-  { label: 'Discord', icon: 'i-simple-icons-discord', url: 'https://discord.com/channels/0000000000000', color: '#5865f2' },
+  { label: 'GitHub', icon: 'i-simple-icons-github', url: 'https://github.com/buraaks' },
+  { label: 'LinkedIn', icon: 'i-simple-icons-linkedin', url: 'https://www.linkedin.com/in/burak-temur-a39432300/' },
+  { label: 'Instagram', icon: 'i-simple-icons-instagram', url: 'https://www.instagram.com/burak._.tmr8' },
+  { label: 'Discord', icon: 'i-simple-icons-discord', url: 'https://discord.com/channels/828344938944921630' },
+  { label: 'Email', icon: 'i-lucide-mail', url: 'mailto:buraktemur0816@gmail.com' },
 ]
 
 function toggleLocale(): void {
   setLocale(locale.value === 'tr' ? 'en' : 'tr')
-}
-
-async function copyEmail(): Promise<void> {
-  try {
-    await navigator.clipboard.writeText('example@gmail.com')
-    copied.value = true
-    setTimeout(() => { copied.value = false }, 2000)
-  }
-  catch { /* clipboard not available */ }
 }
 </script>
