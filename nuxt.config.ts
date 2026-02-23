@@ -1,0 +1,43 @@
+// https://nuxt.com/docs/api/configuration/nuxt-config
+export default defineNuxtConfig({
+  compatibilityDate: '2024-11-01',
+  devtools: { enabled: true },
+  modules: ['@nuxt/ui'],
+  css: ['~/assets/css/main.css'],
+  colorMode: {
+    preference: 'dark'
+  },
+
+  runtimeConfig: {
+    public: {
+      omdbApiKey: ''
+    }
+  },
+
+  ssr: false,
+  nitro: {
+    preset: 'static'
+  },
+
+  app: {
+    pageTransition: { name: 'page', mode: 'out-in' },
+    head: {
+      title: 'Media Tracker',
+      htmlAttrs: {
+        lang: 'tr'
+      },
+      link: [
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }
+      ],
+      meta: [
+        { name: 'theme-color', content: '#1a1a1a' },
+        { name: 'description', content: 'İzlediklerim ve Okuduklarım - Film, Dizi, Anime, Manga Takip' },
+        { property: 'og:title', content: 'Media Tracker' },
+        { property: 'og:description', content: 'Film, dizi, anime ve manga takip uygulaması.' },
+        { property: 'og:type', content: 'website' },
+        { property: 'og:locale', content: 'tr_TR' },
+        { name: 'author', content: 'Burak Temur' }
+      ]
+    }
+  }
+})  
