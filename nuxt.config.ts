@@ -45,6 +45,7 @@ export default defineNuxtConfig({
         { property: 'og:title', content: 'Media Tracker' },
         { property: 'og:description', content: 'Film, dizi, anime ve manga takip uygulaması.' },
         { property: 'og:type', content: 'website' },
+        { property: 'og:image', content: '/og-image.png' },
         { property: 'og:locale', content: 'tr_TR' },
         { name: 'author', content: 'Burak Temur' }
       ]
