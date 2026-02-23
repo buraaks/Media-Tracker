@@ -71,6 +71,23 @@ async function removeItem(id: string): Promise<void> {
   }
 }
 
+async function updateNotes(id: string, notes: string): Promise<void> {
+  const { getAuthHeaders } = useAuth()
+  const item = items.value.find(i => i.id === id)
+  if (item) item.notes = notes
+
+  try {
+    await $fetch('/api/media/update.php', {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: { id, notes },
+    })
+  }
+  catch {
+    // API basarisiz olsa bile lokal guncelleme kalir
+  }
+}
+
 function clearItems(): void {
   items.value = []
   loaded.value = false
@@ -84,6 +101,7 @@ export function useMediaStore() {
     getByCategory,
     addItem,
     removeItem,
+    updateNotes,
     clearItems,
   }
 }

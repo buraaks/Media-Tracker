@@ -44,14 +44,6 @@
       </p>
     </div>
 
-    <!-- Remove Button -->
-    <button
-      class="absolute top-2 right-2 flex items-center justify-center size-7 rounded-md bg-black/40 backdrop-blur-sm border border-white/6 opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-red-500/20 hover:border-red-500/30 cursor-pointer"
-      title="Kaldır"
-      @click.stop="$emit('remove', item.id)"
-    >
-      <UIcon name="i-lucide-x" class="size-3.5 text-white/50 hover:text-red-400 transition-colors" />
-    </button>
   </div>
 </template>
 
@@ -64,7 +56,6 @@ defineProps<{
 
 defineEmits<{
   select: [item: MediaItem]
-  remove: [id: string]
 }>()
 
 function onImageError(e: Event): void {

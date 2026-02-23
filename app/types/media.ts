@@ -10,6 +10,7 @@ export interface MediaItem {
   category: MediaCategory
   plot?: string
   genre?: string
+  notes?: string
   addedAt: number
   // status?: 'watched' | 'watching' | 'plan_to_watch' | 'dropped'
 }

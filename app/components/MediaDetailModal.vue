@@ -77,6 +77,32 @@
               <p v-if="!item.plot && !item.genre && !item.extra" class="text-white/25 text-sm italic">
                 Detay bilgisi bulunmuyor.
               </p>
+
+              <!-- Notes -->
+              <div class="pt-1">
+                <label class="flex items-center gap-1.5 text-white/40 text-xs font-medium mb-2">
+                  <UIcon name="i-lucide-notebook-pen" class="size-3.5" />
+                  Notlarim
+                </label>
+                <textarea
+                  v-model="localNotes"
+                  rows="3"
+                  placeholder="Bu icerik hakkinda not birakin..."
+                  class="w-full px-3 py-2.5 bg-white/[0.04] border border-white/8 rounded-lg text-sm text-white/80 placeholder-white/20 outline-none transition-all duration-200 focus:border-primary-500/30 focus:bg-white/[0.06] resize-none"
+                  @blur="saveNotes"
+                />
+              </div>
+
+              <!-- Remove -->
+              <div class="pt-1">
+                <button
+                  class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm text-red-400/70 hover:text-red-400 bg-red-500/5 hover:bg-red-500/10 border border-red-500/10 hover:border-red-500/20 transition-all duration-200 cursor-pointer"
+                  @click="handleRemove"
+                >
+                  <UIcon name="i-lucide-trash-2" class="size-4" />
+                  Listeden Kaldir
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -88,14 +114,39 @@
 <script setup lang="ts">
 import type { MediaItem } from '~/types/media'
 
-defineProps<{
+const props = defineProps<{
   open: boolean
   item: MediaItem | null
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   'update:open': [value: boolean]
+  'remove': [id: string]
 }>()
+
+const { updateNotes } = useMediaStore()
+const localNotes = ref('')
+
+watch(() => props.open, (val) => {
+  if (val && props.item) {
+    localNotes.value = props.item.notes ?? ''
+  }
+})
+
+function saveNotes(): void {
+  if (!props.item) return
+  const trimmed = localNotes.value.trim()
+  if (trimmed !== (props.item.notes ?? '')) {
+    updateNotes(props.item.id, trimmed)
+  }
+}
+
+function handleRemove(): void {
+  if (props.item) {
+    emit('remove', props.item.id)
+    emit('update:open', false)
+  }
+}
 </script>
 
 <style scoped>

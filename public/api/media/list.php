@@ -31,6 +31,7 @@ $result = array_map(function ($row) {
         'category' => $row['category'],
         'plot'     => $row['plot'],
         'genre'    => $row['genre'],
+        'notes'    => $row['notes'],
         'addedAt'  => (int) $row['added_at'],
     ];
 }, $rows);

@@ -33,8 +33,8 @@ if ($stmt->fetch()) {
 }
 
 $stmt = $db->prepare(
-    'INSERT INTO media_items (user_id, media_id, title, year, score, image, extra, category, plot, genre, added_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+    'INSERT INTO media_items (user_id, media_id, title, year, score, image, extra, category, plot, genre, notes, added_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
 );
 $stmt->execute([
     $auth['user_id'],
@@ -47,6 +47,7 @@ $stmt->execute([
     $category,
     $input['plot'] ?? null,
     $input['genre'] ?? null,
+    $input['notes'] ?? null,
     $input['addedAt'] ?? (int) (microtime(true) * 1000),
 ]);
 

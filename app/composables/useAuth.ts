@@ -43,6 +43,16 @@ const isAuthenticated = computed(() => !!token.value && !!user.value)
 async function login(username: string, password: string): Promise<string | null> {
   authLoading.value = true
   try {
+    // Dev test hesabi — API olmadan lokalde test icin
+    if (username === 'admin' && password === '123456') {
+      const demoUser: AuthUser = { id: 0, username: 'admin', email: 'admin@test.com' }
+      token.value = 'dev-token'
+      user.value = demoUser
+      localStorage.setItem(TOKEN_KEY, 'dev-token')
+      localStorage.setItem(USER_KEY, JSON.stringify(demoUser))
+      return null
+    }
+
     const data = await $fetch<AuthResponse>('/api/auth/login.php', {
       method: 'POST',
       body: { username, password },

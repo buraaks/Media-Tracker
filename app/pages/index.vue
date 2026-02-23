@@ -40,12 +40,11 @@
         :items="filteredItems"
         :category="activeCategory"
         @select="openDetail"
-        @remove="handleRemove"
       />
     </div>
 
     <!-- Detail Modal -->
-    <MediaDetailModal :open="modalOpen" :item="selectedItem" @update:open="modalOpen = $event" />
+    <MediaDetailModal :open="modalOpen" :item="selectedItem" @update:open="modalOpen = $event" @remove="handleRemove" />
 
     <!-- Import Modal -->
     <ImportModal :open="importOpen" :category="activeCategory" @update:open="importOpen = $event" />

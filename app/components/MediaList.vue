@@ -12,7 +12,6 @@
         :key="item.id"
         :item="item"
         @select="$emit('select', $event)"
-        @remove="$emit('remove', $event)"
       />
     </TransitionGroup>
 
@@ -40,7 +39,6 @@ const props = defineProps<{
 
 defineEmits<{
   select: [item: MediaItem]
-  remove: [id: string]
 }>()
 
 const iconMap: Record<MediaCategory, string> = {
