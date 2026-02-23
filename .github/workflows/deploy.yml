@@ -42,3 +42,4 @@ jobs:
           server-dir: ${{ secrets.FTP_PATH }}
           log-level: minimal
           dangerous-clean-slate: false
+          timeout: 60000
