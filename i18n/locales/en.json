@@ -54,6 +54,8 @@
     "myNotes": "My Notes",
     "notesPlaceholder": "Leave a note about this content...",
     "removeFromList": "Remove from List",
+    "searching": "Searching...",
+    "noResults": "No results found",
     "emptyTitle": "Nothing added yet",
     "emptySubtitle": "Use the search box above to add {category}",
     "categoryFilm": "movies",

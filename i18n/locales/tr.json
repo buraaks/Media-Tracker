@@ -54,6 +54,8 @@
     "myNotes": "Notlarım",
     "notesPlaceholder": "Bu içerik hakkında not bırakın...",
     "removeFromList": "Listeden Kaldır",
+    "searching": "Aranıyor...",
+    "noResults": "Sonuç bulunamadı",
     "emptyTitle": "Henüz bir şey eklenmemiş",
     "emptySubtitle": "Yukarıdaki arama kutusunu kullanarak {category} ekleyin",
     "categoryFilm": "film",

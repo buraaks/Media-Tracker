@@ -75,6 +75,39 @@ export interface ImdbCsvRow {
   genres: string
 }
 
+export interface OmdbSearchItem {
+  Title: string
+  Year: string
+  imdbID: string
+  Type: string
+  Poster: string
+}
+
+export interface OmdbSearchResponse {
+  Response: 'True' | 'False'
+  Search?: OmdbSearchItem[]
+  totalResults?: string
+  Error?: string
+}
+
+export interface AniListPageResponse {
+  data: {
+    Page: {
+      media: AniListMedia[]
+    } | null
+  }
+  errors?: Array<{ message: string }>
+}
+
+export interface SearchResult {
+  title: string
+  year: string
+  image: string
+  category: MediaCategory
+  imdbId?: string
+  fullItem?: MediaItem
+}
+
 export interface ImportProgress {
   total: number
   current: number

@@ -1,6 +1,7 @@
 import type {
   MediaCategory, MediaItem, OmdbResponse, AniListResponse,
-  AniListMedia, AniListUserListResponse, ImdbCsvRow, ImportProgress
+  AniListMedia, AniListUserListResponse, ImdbCsvRow, ImportProgress,
+  OmdbSearchResponse, AniListPageResponse, SearchResult,
 } from '~/types/media'
 
 const ANILIST_ENDPOINT = 'https://graphql.anilist.co'
@@ -28,6 +29,36 @@ query ($search: String) {
     coverImage { large }
     genres
     description
+  }
+}`
+
+const ANIME_PAGE_QUERY = `
+query ($search: String) {
+  Page(page: 1, perPage: 5) {
+    media(search: $search, type: ANIME, sort: SEARCH_MATCH) {
+      title { romaji english }
+      episodes
+      averageScore
+      seasonYear
+      coverImage { large }
+      genres
+      description
+    }
+  }
+}`
+
+const MANGA_PAGE_QUERY = `
+query ($search: String) {
+  Page(page: 1, perPage: 5) {
+    media(search: $search, type: MANGA, sort: SEARCH_MATCH) {
+      title { romaji english }
+      chapters
+      averageScore
+      startDate { year }
+      coverImage { large }
+      genres
+      description
+    }
   }
 }`
 
@@ -144,6 +175,49 @@ async function searchOmdbById(imdbId: string): Promise<OmdbResponse> {
   })
 }
 
+async function searchOmdbMultiple(query: string, type: 'movie' | 'series', category: MediaCategory): Promise<SearchResult[]> {
+  const config = useRuntimeConfig()
+  const apiKey = config.public.omdbApiKey
+  if (!apiKey) return []
+
+  const data = await $fetch<OmdbSearchResponse>('https://www.omdbapi.com/', {
+    params: { apikey: apiKey, s: query, type },
+  })
+
+  if (data.Response === 'False' || !data.Search) return []
+
+  return data.Search.slice(0, 5).map(item => ({
+    title: item.Title,
+    year: item.Year,
+    image: item.Poster !== 'N/A' ? item.Poster : '',
+    category,
+    imdbId: item.imdbID,
+  }))
+}
+
+async function searchAniListMultiple(query: string, type: 'ANIME' | 'MANGA'): Promise<SearchResult[]> {
+  const gqlQuery = type === 'ANIME' ? ANIME_PAGE_QUERY : MANGA_PAGE_QUERY
+
+  const response = await $fetch<AniListPageResponse>(ANILIST_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: { query: gqlQuery, variables: { search: query } },
+  })
+
+  if (response.errors?.length || !response.data?.Page?.media) return []
+
+  return response.data.Page.media.map((media) => {
+    const fullItem = normalizeAniListMedia(media, type)
+    return {
+      title: fullItem.title,
+      year: fullItem.year,
+      image: fullItem.image,
+      category: fullItem.category,
+      fullItem,
+    }
+  })
+}
+
 async function searchAniList(query: string, type: 'ANIME' | 'MANGA'): Promise<MediaItem> {
   const gqlQuery = type === 'ANIME' ? ANIME_QUERY : MANGA_QUERY
 
@@ -226,6 +300,68 @@ export function useMediaApi() {
   const loading = ref(false)
   const error = ref<string | null>(null)
   const importProgress = ref<ImportProgress | null>(null)
+
+  const searchLoading = ref(false)
+
+  async function searchMultiple(query: string, category: MediaCategory): Promise<SearchResult[]> {
+    searchLoading.value = true
+    try {
+      switch (category) {
+        case 'film':
+          return await searchOmdbMultiple(query, 'movie', 'film')
+        case 'dizi':
+          return await searchOmdbMultiple(query, 'series', 'dizi')
+        case 'anime':
+          return await searchAniListMultiple(query, 'ANIME')
+        case 'manga':
+          return await searchAniListMultiple(query, 'MANGA')
+      }
+    }
+    catch {
+      return []
+    }
+    finally {
+      searchLoading.value = false
+    }
+  }
+
+  async function selectResult(result: SearchResult): Promise<MediaItem | null> {
+    if (result.fullItem) return result.fullItem
+
+    if (result.imdbId) {
+      loading.value = true
+      error.value = null
+      try {
+        const data = await searchOmdbById(result.imdbId)
+        if (data.Response === 'False') {
+          error.value = data.Error || 'Icerik bulunamadi.'
+          return null
+        }
+        const category = result.category
+        return {
+          id: generateId(data.Title, category),
+          title: data.Title,
+          year: data.Year,
+          score: data.imdbRating !== 'N/A' ? data.imdbRating : '-',
+          image: data.Poster !== 'N/A' ? data.Poster : '',
+          extra: data.Genre,
+          category,
+          plot: data.Plot !== 'N/A' ? data.Plot : undefined,
+          genre: data.Genre !== 'N/A' ? data.Genre : undefined,
+          addedAt: Date.now(),
+        }
+      }
+      catch (e: unknown) {
+        error.value = e instanceof Error ? e.message : 'Bir hata olustu.'
+        return null
+      }
+      finally {
+        loading.value = false
+      }
+    }
+
+    return null
+  }
 
   async function searchMedia(query: string, category: MediaCategory): Promise<MediaItem | null> {
     loading.value = true
@@ -386,10 +522,13 @@ export function useMediaApi() {
 
   return {
     searchMedia,
+    searchMultiple,
+    selectResult,
     importFromAniList,
     importFromImdbCsv,
     importProgress,
+    searchLoading,
     loading,
-    error
+    error,
   }
 }
