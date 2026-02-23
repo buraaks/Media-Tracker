@@ -10,19 +10,32 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $auth  = requireAuth();
 $input = getInput();
 
-$mediaId = trim($input['id'] ?? '');
+$mediaId  = trim($input['id'] ?? '');
+$category = trim($input['category'] ?? '');
+
 if ($mediaId === '') {
     jsonError('ID gerekli.');
 }
 
 $notes = $input['notes'] ?? null;
 
-$db   = getDB();
-$stmt = $db->prepare('UPDATE media_items SET notes = ? WHERE user_id = ? AND media_id = ?');
-$stmt->execute([$notes, $auth['user_id'], $mediaId]);
+$db = getDB();
 
-if ($stmt->rowCount() === 0) {
+$where  = 'user_id = ? AND media_id = ?';
+$params = [$auth['user_id'], $mediaId];
+
+if ($category !== '') {
+    $where   .= ' AND category = ?';
+    $params[] = $category;
+}
+
+$stmt = $db->prepare("SELECT id FROM media_items WHERE $where");
+$stmt->execute($params);
+if (!$stmt->fetch()) {
     jsonError('Icerik bulunamadi.', 404);
 }
+
+$stmt = $db->prepare("UPDATE media_items SET notes = ? WHERE $where");
+$stmt->execute(array_merge([$notes], $params));
 
 jsonResponse(['success' => true, 'message' => 'Guncellendi.']);

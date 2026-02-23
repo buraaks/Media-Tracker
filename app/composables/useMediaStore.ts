@@ -36,8 +36,7 @@ async function addItem(item: MediaItem): Promise<boolean> {
   if (!isAuthenticated.value) return false
 
   const duplicate = items.value.some(
-    existing => existing.title.toLowerCase() === item.title.toLowerCase()
-      && existing.category === item.category,
+    existing => existing.id === item.id && existing.category === item.category,
   )
   if (duplicate) return false
 

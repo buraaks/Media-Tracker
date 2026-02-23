@@ -131,11 +131,6 @@ async function handleRegister(): Promise<void> {
   if (!canSubmit.value || authLoading.value) return
   errorMsg.value = ''
 
-  if (password.value !== confirmPassword.value) {
-    errorMsg.value = 'Sifreler eslesmiyor.'
-    return
-  }
-
   const err = await register(username.value.trim(), email.value.trim(), password.value)
   if (err) {
     errorMsg.value = err

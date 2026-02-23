@@ -26,7 +26,7 @@
 
       <!-- Add Form -->
       <div class="mb-8">
-        <AddMediaForm :category="activeCategory" @added="onAdded" />
+        <AddMediaForm :category="activeCategory" />
       </div>
 
       <!-- Loading -->
@@ -83,10 +83,6 @@ function openDetail(item: MediaItem): void {
 
 async function handleRemove(id: string): Promise<void> {
   await removeItem(id)
-}
-
-function onAdded(): void {
-  // placeholder for future toast/animation
 }
 
 onMounted(() => {

@@ -44,6 +44,8 @@ jobs:
 
       - name: Nuxt static generate
         run: pnpm generate
+        env:
+          NUXT_PUBLIC_OMDB_API_KEY: ${{ secrets.OMDB_API_KEY }}
 
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5

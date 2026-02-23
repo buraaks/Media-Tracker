@@ -167,15 +167,6 @@ onUnmounted(() => {
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
 }
 
-.contact-panel {
-  width: 220px;
-  padding: 4px;
-  background: #1c1c1c;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
-}
-
 .contact-item {
   display: flex;
   align-items: center;

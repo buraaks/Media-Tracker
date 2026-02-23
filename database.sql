@@ -21,6 +21,7 @@ CREATE TABLE media_items (
     category ENUM('film', 'dizi', 'anime', 'manga') NOT NULL,
     plot TEXT,
     genre VARCHAR(255),
+    notes TEXT,
     added_at BIGINT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,

@@ -29,7 +29,6 @@ $stmt = $db->prepare('SELECT id FROM media_items WHERE user_id = ? AND media_id 
 $stmt->execute([$auth['user_id'], $mediaId, $category]);
 if ($stmt->fetch()) {
     jsonResponse(['success' => false, 'duplicate' => true, 'message' => 'Bu icerik zaten listenizde.'], 409);
-    return;
 }
 
 $stmt = $db->prepare(

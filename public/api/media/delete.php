@@ -15,9 +15,19 @@ if ($mediaId === '') {
     jsonError('ID gerekli.');
 }
 
-$db   = getDB();
-$stmt = $db->prepare('DELETE FROM media_items WHERE user_id = ? AND media_id = ?');
-$stmt->execute([$auth['user_id'], $mediaId]);
+$db = getDB();
+
+$where  = 'user_id = ? AND media_id = ?';
+$params = [$auth['user_id'], $mediaId];
+
+$category = trim($input['category'] ?? '');
+if ($category !== '') {
+    $where   .= ' AND category = ?';
+    $params[] = $category;
+}
+
+$stmt = $db->prepare("DELETE FROM media_items WHERE $where");
+$stmt->execute($params);
 
 if ($stmt->rowCount() === 0) {
     jsonError('Icerik bulunamadi.', 404);

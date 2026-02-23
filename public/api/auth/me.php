@@ -3,6 +3,10 @@ require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../helpers.php';
 corsHeaders();
 
+if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+    jsonError('Method not allowed.', 405);
+}
+
 $auth = requireAuth();
 
 $db   = getDB();
