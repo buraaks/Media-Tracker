@@ -1,0 +1,101 @@
+{
+  "app": {
+    "name": "Media Tracker"
+  },
+  "nav": {
+    "film": "Film",
+    "series": "Dizi",
+    "anime": "Anime",
+    "manga": "Manga"
+  },
+  "home": {
+    "badge": "Film, Dizi, Anime & Manga",
+    "titleStart": "Izlediklerini ve Okuduklarini",
+    "titleHighlight": "Takip Et",
+    "description": "Filmlerini, dizilerini, animelerini ve mangalarini tek bir yerde yonet. Listeni olustur, not birak.",
+    "cta": "Hemen Basla",
+    "myList": "Listem",
+    "contact": "Iletisim",
+    "copied": "Kopyalandi!"
+  },
+  "auth": {
+    "signIn": "Giris Yap",
+    "signUp": "Kayit Ol",
+    "signOut": "Cikis Yap",
+    "signInSubtitle": "Hesabiniza giris yapin",
+    "signUpSubtitle": "Yeni hesap olusturun",
+    "username": "Kullanici Adi",
+    "usernamePlaceholder": "kullanici_adi",
+    "email": "E-posta",
+    "emailPlaceholder": "ornek{'@'}mail.com",
+    "password": "Sifre",
+    "confirmPassword": "Sifre Tekrar",
+    "confirmPlaceholder": "Sifrenizi tekrar girin",
+    "minChars": "En az 6 karakter",
+    "signingIn": "Giris yapiliyor...",
+    "signingUp": "Kayit yapiliyor...",
+    "noAccount": "Hesabiniz yok mu?",
+    "hasAccount": "Zaten hesabiniz var mi?"
+  },
+  "tracker": {
+    "myMovies": "Filmlerim",
+    "mySeries": "Dizilerim",
+    "myAnime": "Animelerim",
+    "myManga": "Mangalarim"
+  },
+  "media": {
+    "add": "Ekle",
+    "searchFilm": "Film adi girin... (or: Inception)",
+    "searchSeries": "Dizi adi girin... (or: Breaking Bad)",
+    "searchAnime": "Anime adi girin... (or: Death Note)",
+    "searchManga": "Manga adi girin... (or: Berserk)",
+    "duplicate": "\"{title}\" zaten listenizde mevcut.",
+    "noDetails": "Detay bilgisi bulunmuyor.",
+    "myNotes": "Notlarim",
+    "notesPlaceholder": "Bu icerik hakkinda not birakin...",
+    "removeFromList": "Listeden Kaldir",
+    "emptyTitle": "Henuz bir sey eklenmemis",
+    "emptySubtitle": "Yukaridaki arama kutusunu kullanarak {category} ekleyin",
+    "categoryFilm": "film",
+    "categorySeries": "dizi",
+    "categoryAnime": "anime",
+    "categoryManga": "manga"
+  },
+  "profile": {
+    "title": "Profil",
+    "account": "Hesap Bilgileri",
+    "editAccount": "Hesabi Duzenle",
+    "username": "Kullanici Adi",
+    "email": "E-posta",
+    "newPassword": "Yeni Sifre",
+    "newPasswordPlaceholder": "Bos birakirsaniz degismez",
+    "currentPassword": "Mevcut Sifre",
+    "currentPasswordPlaceholder": "Degisiklikleri onaylamak icin",
+    "save": "Kaydet",
+    "saving": "Kaydediliyor...",
+    "saved": "Degisiklikler kaydedildi.",
+    "settings": "Ayarlar",
+    "language": "Dil",
+    "signOut": "Cikis Yap"
+  },
+  "import": {
+    "anilistImport": "AniList Import",
+    "imdbImport": "IMDb Import",
+    "anilistSubtitle": "AniList listenizi kullanici adi ile iceri aktarin",
+    "imdbSubtitle": "IMDb watchlist CSV dosyanizi yukleyin",
+    "anilistUsername": "AniList kullanici adi",
+    "anilistNote": "AniList profilinizin herkese acik olmasi gerekiyor. Kullanici adinizi {link} adresinden bulabilirsiniz.",
+    "csvSelect": "CSV dosyasi secin veya surukleyin",
+    "imdbNote": "IMDb watchlist'inizi CSV olarak indirmek icin:",
+    "imdbStep1": "{link} sayfaniza gidin",
+    "imdbStep2": "Sag ustteki {dots} menusunden {action} secin",
+    "imdbStep3": "Indirilen CSV dosyasini buraya yukleyin",
+    "added": "eklendi",
+    "skipped": "atlandi",
+    "failed": "basarisiz",
+    "importComplete": "Import tamamlandi! {count} icerik eklendi.",
+    "close": "Kapat",
+    "loading": "Yukleniyor...",
+    "startImport": "Ice Aktar"
+  }
+}

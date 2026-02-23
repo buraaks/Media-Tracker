@@ -1,0 +1,101 @@
+{
+  "app": {
+    "name": "Media Tracker"
+  },
+  "nav": {
+    "film": "Movies",
+    "series": "Series",
+    "anime": "Anime",
+    "manga": "Manga"
+  },
+  "home": {
+    "badge": "Movies, Series, Anime & Manga",
+    "titleStart": "Track What You",
+    "titleHighlight": "Watch & Read",
+    "description": "Manage your movies, series, anime and manga in one place. Build your list, leave notes.",
+    "cta": "Get Started",
+    "myList": "My List",
+    "contact": "Contact",
+    "copied": "Copied!"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "signInSubtitle": "Sign in to your account",
+    "signUpSubtitle": "Create a new account",
+    "username": "Username",
+    "usernamePlaceholder": "username",
+    "email": "Email",
+    "emailPlaceholder": "example{'@'}mail.com",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "confirmPlaceholder": "Re-enter your password",
+    "minChars": "At least 6 characters",
+    "signingIn": "Signing in...",
+    "signingUp": "Signing up...",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?"
+  },
+  "tracker": {
+    "myMovies": "My Movies",
+    "mySeries": "My Series",
+    "myAnime": "My Anime",
+    "myManga": "My Manga"
+  },
+  "media": {
+    "add": "Add",
+    "searchFilm": "Enter movie name... (e.g. Inception)",
+    "searchSeries": "Enter series name... (e.g. Breaking Bad)",
+    "searchAnime": "Enter anime name... (e.g. Death Note)",
+    "searchManga": "Enter manga name... (e.g. Berserk)",
+    "duplicate": "\"{title}\" is already in your list.",
+    "noDetails": "No details available.",
+    "myNotes": "My Notes",
+    "notesPlaceholder": "Leave a note about this content...",
+    "removeFromList": "Remove from List",
+    "emptyTitle": "Nothing added yet",
+    "emptySubtitle": "Use the search box above to add {category}",
+    "categoryFilm": "movies",
+    "categorySeries": "series",
+    "categoryAnime": "anime",
+    "categoryManga": "manga"
+  },
+  "profile": {
+    "title": "Profile",
+    "account": "Account Info",
+    "editAccount": "Edit Account",
+    "username": "Username",
+    "email": "Email",
+    "newPassword": "New Password",
+    "newPasswordPlaceholder": "Leave empty to keep current",
+    "currentPassword": "Current Password",
+    "currentPasswordPlaceholder": "Required to save changes",
+    "save": "Save",
+    "saving": "Saving...",
+    "saved": "Changes saved successfully.",
+    "settings": "Settings",
+    "language": "Language",
+    "signOut": "Sign Out"
+  },
+  "import": {
+    "anilistImport": "AniList Import",
+    "imdbImport": "IMDb Import",
+    "anilistSubtitle": "Import your AniList by username",
+    "imdbSubtitle": "Upload your IMDb watchlist CSV file",
+    "anilistUsername": "AniList username",
+    "anilistNote": "Your AniList profile must be public. You can find your username at {link}.",
+    "csvSelect": "Select or drag a CSV file",
+    "imdbNote": "To download your IMDb watchlist as CSV:",
+    "imdbStep1": "Go to your {link} page",
+    "imdbStep2": "Select {action} from the {dots} menu at the top right",
+    "imdbStep3": "Upload the downloaded CSV file here",
+    "added": "added",
+    "skipped": "skipped",
+    "failed": "failed",
+    "importComplete": "Import complete! {count} items added.",
+    "close": "Close",
+    "loading": "Loading...",
+    "startImport": "Import"
+  }
+}

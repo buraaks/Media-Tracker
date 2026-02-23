@@ -1,5 +1,13 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center px-4">
+  <div class="min-h-screen flex items-center justify-center px-4 relative">
+    <!-- Language Switcher -->
+    <button
+      class="absolute top-4 right-4 px-2.5 py-1.5 text-xs font-medium text-white/40 hover:text-white/70 bg-white/[0.03] hover:bg-white/[0.06] border border-white/6 hover:border-white/10 rounded-lg transition-all duration-200 cursor-pointer"
+      @click="toggleLocale"
+    >
+      {{ locale === 'tr' ? 'EN' : 'TR' }}
+    </button>
+
     <div class="w-full max-w-sm">
       <!-- Logo -->
       <div class="flex flex-col items-center mb-8">
@@ -7,20 +15,20 @@
           <path d="M11 4L4 12L11 20" stroke="#ff3e3e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
           <path d="M17 4L24 12L17 20" stroke="#888888" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
-        <h1 class="text-white/90 text-xl font-bold tracking-wide">Media Tracker</h1>
-        <p class="text-white/35 text-sm mt-1">Hesabiniza giris yapin</p>
+        <h1 class="text-white/90 text-xl font-bold tracking-wide">{{ $t('app.name') }}</h1>
+        <p class="text-white/35 text-sm mt-1">{{ $t('auth.signInSubtitle') }}</p>
       </div>
 
       <!-- Form -->
       <form class="space-y-4" @submit.prevent="handleLogin">
         <div>
-          <label class="block text-white/50 text-xs font-medium mb-1.5">Kullanici Adi</label>
+          <label class="block text-white/50 text-xs font-medium mb-1.5">{{ $t('auth.username') }}</label>
           <div class="relative">
             <UIcon name="i-lucide-user" class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-white/25 pointer-events-none" />
             <input
               v-model="username"
               type="text"
-              placeholder="kullanici_adi"
+              :placeholder="$t('auth.usernamePlaceholder')"
               :disabled="authLoading"
               autocomplete="username"
               class="w-full pl-9 pr-4 py-2.5 bg-white/5 border border-white/8 rounded-lg text-sm text-white/90 placeholder-white/25 outline-none transition-all duration-200 focus:border-primary-500/40 focus:bg-white/7 disabled:opacity-50"
@@ -29,7 +37,7 @@
         </div>
 
         <div>
-          <label class="block text-white/50 text-xs font-medium mb-1.5">Sifre</label>
+          <label class="block text-white/50 text-xs font-medium mb-1.5">{{ $t('auth.password') }}</label>
           <div class="relative">
             <UIcon name="i-lucide-lock" class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-white/25 pointer-events-none" />
             <input
@@ -65,15 +73,15 @@
           class="w-full flex items-center justify-center gap-2 py-2.5 bg-primary-500 hover:bg-primary-600 disabled:bg-white/8 disabled:text-white/25 text-white text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer disabled:cursor-not-allowed"
         >
           <UIcon v-if="authLoading" name="i-lucide-loader-2" class="size-4 animate-spin" />
-          {{ authLoading ? 'Giris yapiliyor...' : 'Giris Yap' }}
+          {{ authLoading ? $t('auth.signingIn') : $t('auth.signIn') }}
         </button>
       </form>
 
       <!-- Register Link -->
       <p class="text-center text-white/30 text-xs mt-6">
-        Hesabiniz yok mu?
+        {{ $t('auth.noAccount') }}
         <NuxtLink to="/register" class="text-primary-400 hover:text-primary-300 transition-colors">
-          Kayit Ol
+          {{ $t('auth.signUp') }}
         </NuxtLink>
       </p>
     </div>
@@ -82,6 +90,11 @@
 
 <script setup lang="ts">
 const { login, authLoading } = useAuth()
+const { locale, setLocale } = useI18n()
+
+function toggleLocale(): void {
+  setLocale(locale.value === 'tr' ? 'en' : 'tr')
+}
 
 const username = ref('')
 const password = ref('')
@@ -99,7 +112,7 @@ async function handleLogin(): Promise<void> {
     errorMsg.value = err
   }
   else {
-    navigateTo('/')
+    navigateTo('/tracker')
   }
 }
 </script>

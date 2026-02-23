@@ -75,19 +75,19 @@
               </p>
 
               <p v-if="!item.plot && !item.genre && !item.extra" class="text-white/25 text-sm italic">
-                Detay bilgisi bulunmuyor.
+                {{ $t('media.noDetails') }}
               </p>
 
               <!-- Notes -->
               <div class="pt-1">
                 <label class="flex items-center gap-1.5 text-white/40 text-xs font-medium mb-2">
                   <UIcon name="i-lucide-notebook-pen" class="size-3.5" />
-                  Notlarim
+                  {{ $t('media.myNotes') }}
                 </label>
                 <textarea
                   v-model="localNotes"
                   rows="3"
-                  placeholder="Bu icerik hakkinda not birakin..."
+                  :placeholder="$t('media.notesPlaceholder')"
                   class="w-full px-3 py-2.5 bg-white/[0.04] border border-white/8 rounded-lg text-sm text-white/80 placeholder-white/20 outline-none transition-all duration-200 focus:border-primary-500/30 focus:bg-white/[0.06] resize-none"
                   @blur="saveNotes"
                 />
@@ -100,7 +100,7 @@
                   @click="handleRemove"
                 >
                   <UIcon name="i-lucide-trash-2" class="size-4" />
-                  Listeden Kaldir
+                  {{ $t('media.removeFromList') }}
                 </button>
               </div>
             </div>

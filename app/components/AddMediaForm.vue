@@ -29,7 +29,7 @@
         name="i-lucide-plus"
         class="size-4"
       />
-      Ekle
+      {{ $t('media.add') }}
     </button>
   </form>
 
@@ -63,24 +63,21 @@ const props = defineProps<{
   category: MediaCategory
 }>()
 
-const emit = defineEmits<{
-  added: []
-}>()
-
+const { t } = useI18n()
 const { searchMedia, loading, error } = useMediaApi()
 const { addItem } = useMediaStore()
 
 const query = ref('')
 const duplicateWarning = ref('')
 
-const placeholders: Record<MediaCategory, string> = {
-  film: 'Film adı girin... (ör: Inception)',
-  dizi: 'Dizi adı girin... (ör: Breaking Bad)',
-  anime: 'Anime adı girin... (ör: Death Note)',
-  manga: 'Manga adı girin... (ör: Berserk)'
+const placeholderMap: Record<MediaCategory, string> = {
+  film: 'media.searchFilm',
+  dizi: 'media.searchSeries',
+  anime: 'media.searchAnime',
+  manga: 'media.searchManga',
 }
 
-const placeholder = computed(() => placeholders[props.category])
+const placeholder = computed(() => t(placeholderMap[props.category]))
 
 async function handleSubmit(): Promise<void> {
   const trimmed = query.value.trim()
@@ -93,12 +90,11 @@ async function handleSubmit(): Promise<void> {
 
   const added = await addItem(item)
   if (!added) {
-    duplicateWarning.value = `"${item.title}" zaten listenizde mevcut.`
+    duplicateWarning.value = t('media.duplicate', { title: item.title })
     return
   }
 
   query.value = ''
-  emit('added')
 }
 
 watch(() => props.category, () => {

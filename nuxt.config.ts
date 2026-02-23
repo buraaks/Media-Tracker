@@ -2,7 +2,17 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  modules: ['@nuxt/ui'],
+  modules: ['@nuxt/ui', '@nuxtjs/i18n'],
+
+  i18n: {
+    locales: [
+      { code: 'tr', name: 'Turkce', file: 'tr.json' },
+      { code: 'en', name: 'English', file: 'en.json' },
+    ],
+    defaultLocale: 'tr',
+    strategy: 'no_prefix',
+    langDir: 'locales',
+  },
   css: ['~/assets/css/main.css'],
   colorMode: {
     preference: 'dark'

@@ -1,5 +1,13 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center px-4">
+  <div class="min-h-screen flex items-center justify-center px-4 relative">
+    <!-- Language Switcher -->
+    <button
+      class="absolute top-4 right-4 px-2.5 py-1.5 text-xs font-medium text-white/40 hover:text-white/70 bg-white/[0.03] hover:bg-white/[0.06] border border-white/6 hover:border-white/10 rounded-lg transition-all duration-200 cursor-pointer"
+      @click="toggleLocale"
+    >
+      {{ locale === 'tr' ? 'EN' : 'TR' }}
+    </button>
+
     <div class="w-full max-w-sm">
       <!-- Logo -->
       <div class="flex flex-col items-center mb-8">
@@ -7,20 +15,20 @@
           <path d="M11 4L4 12L11 20" stroke="#ff3e3e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
           <path d="M17 4L24 12L17 20" stroke="#888888" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
-        <h1 class="text-white/90 text-xl font-bold tracking-wide">Media Tracker</h1>
-        <p class="text-white/35 text-sm mt-1">Yeni hesap olusturun</p>
+        <h1 class="text-white/90 text-xl font-bold tracking-wide">{{ $t('app.name') }}</h1>
+        <p class="text-white/35 text-sm mt-1">{{ $t('auth.signUpSubtitle') }}</p>
       </div>
 
       <!-- Form -->
       <form class="space-y-4" @submit.prevent="handleRegister">
         <div>
-          <label class="block text-white/50 text-xs font-medium mb-1.5">Kullanici Adi</label>
+          <label class="block text-white/50 text-xs font-medium mb-1.5">{{ $t('auth.username') }}</label>
           <div class="relative">
             <UIcon name="i-lucide-user" class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-white/25 pointer-events-none" />
             <input
               v-model="username"
               type="text"
-              placeholder="kullanici_adi"
+              :placeholder="$t('auth.usernamePlaceholder')"
               :disabled="authLoading"
               autocomplete="username"
               class="w-full pl-9 pr-4 py-2.5 bg-white/5 border border-white/8 rounded-lg text-sm text-white/90 placeholder-white/25 outline-none transition-all duration-200 focus:border-primary-500/40 focus:bg-white/7 disabled:opacity-50"
@@ -29,13 +37,13 @@
         </div>
 
         <div>
-          <label class="block text-white/50 text-xs font-medium mb-1.5">E-posta</label>
+          <label class="block text-white/50 text-xs font-medium mb-1.5">{{ $t('auth.email') }}</label>
           <div class="relative">
             <UIcon name="i-lucide-mail" class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-white/25 pointer-events-none" />
             <input
               v-model="email"
               type="email"
-              placeholder="ornek@mail.com"
+              :placeholder="$t('auth.emailPlaceholder')"
               :disabled="authLoading"
               autocomplete="email"
               class="w-full pl-9 pr-4 py-2.5 bg-white/5 border border-white/8 rounded-lg text-sm text-white/90 placeholder-white/25 outline-none transition-all duration-200 focus:border-primary-500/40 focus:bg-white/7 disabled:opacity-50"
@@ -44,13 +52,13 @@
         </div>
 
         <div>
-          <label class="block text-white/50 text-xs font-medium mb-1.5">Sifre</label>
+          <label class="block text-white/50 text-xs font-medium mb-1.5">{{ $t('auth.password') }}</label>
           <div class="relative">
             <UIcon name="i-lucide-lock" class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-white/25 pointer-events-none" />
             <input
               v-model="password"
               :type="showPassword ? 'text' : 'password'"
-              placeholder="En az 6 karakter"
+              :placeholder="$t('auth.minChars')"
               :disabled="authLoading"
               autocomplete="new-password"
               class="w-full pl-9 pr-10 py-2.5 bg-white/5 border border-white/8 rounded-lg text-sm text-white/90 placeholder-white/25 outline-none transition-all duration-200 focus:border-primary-500/40 focus:bg-white/7 disabled:opacity-50"
@@ -67,13 +75,13 @@
         </div>
 
         <div>
-          <label class="block text-white/50 text-xs font-medium mb-1.5">Sifre Tekrar</label>
+          <label class="block text-white/50 text-xs font-medium mb-1.5">{{ $t('auth.confirmPassword') }}</label>
           <div class="relative">
             <UIcon name="i-lucide-lock" class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-white/25 pointer-events-none" />
             <input
               v-model="confirmPassword"
               :type="showPassword ? 'text' : 'password'"
-              placeholder="Sifrenizi tekrar girin"
+              :placeholder="$t('auth.confirmPlaceholder')"
               :disabled="authLoading"
               autocomplete="new-password"
               class="w-full pl-9 pr-4 py-2.5 bg-white/5 border border-white/8 rounded-lg text-sm text-white/90 placeholder-white/25 outline-none transition-all duration-200 focus:border-primary-500/40 focus:bg-white/7 disabled:opacity-50"
@@ -95,15 +103,15 @@
           class="w-full flex items-center justify-center gap-2 py-2.5 bg-primary-500 hover:bg-primary-600 disabled:bg-white/8 disabled:text-white/25 text-white text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer disabled:cursor-not-allowed"
         >
           <UIcon v-if="authLoading" name="i-lucide-loader-2" class="size-4 animate-spin" />
-          {{ authLoading ? 'Kayit yapiliyor...' : 'Kayit Ol' }}
+          {{ authLoading ? $t('auth.signingUp') : $t('auth.signUp') }}
         </button>
       </form>
 
       <!-- Login Link -->
       <p class="text-center text-white/30 text-xs mt-6">
-        Zaten hesabiniz var mi?
+        {{ $t('auth.hasAccount') }}
         <NuxtLink to="/login" class="text-primary-400 hover:text-primary-300 transition-colors">
-          Giris Yap
+          {{ $t('auth.signIn') }}
         </NuxtLink>
       </p>
     </div>
@@ -112,6 +120,11 @@
 
 <script setup lang="ts">
 const { register, authLoading } = useAuth()
+const { locale, setLocale } = useI18n()
+
+function toggleLocale(): void {
+  setLocale(locale.value === 'tr' ? 'en' : 'tr')
+}
 
 const username = ref('')
 const email = ref('')
@@ -136,7 +149,7 @@ async function handleRegister(): Promise<void> {
     errorMsg.value = err
   }
   else {
-    navigateTo('/')
+    navigateTo('/tracker')
   }
 }
 </script>

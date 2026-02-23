@@ -7,13 +7,13 @@
   >
     <div class="max-w-275 mx-auto px-8 py-3.5 flex items-center justify-between max-sm:px-4">
       <!-- Logo + Title -->
-      <div class="flex items-center gap-3 shrink-0">
+      <NuxtLink to="/" class="flex items-center gap-3 shrink-0">
         <svg class="block transition-all duration-300 hover:scale-105 hover:filter-[drop-shadow(0_0_6px_rgba(255,62,62,0.4))]" width="28" height="24" viewBox="0 0 28 24" fill="none">
           <path d="M11 4L4 12L11 20" stroke="#ff3e3e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M17 4L24 12L17 20" stroke="#888888" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <span class="text-white/90 font-semibold text-sm tracking-wide max-sm:hidden">Media Tracker</span>
-      </div>
+        <span class="text-white/90 font-semibold text-sm tracking-wide max-sm:hidden">{{ $t('app.name') }}</span>
+      </NuxtLink>
 
       <!-- Category Tabs (Desktop) -->
       <nav class="flex items-center gap-1 max-sm:hidden">
@@ -27,13 +27,12 @@
           @click="$emit('update:modelValue', tab.key)"
         >
           <UIcon :name="tab.icon" class="size-4" />
-          {{ tab.label }}
+          {{ $t(`nav.${tab.i18nKey}`) }}
         </button>
       </nav>
 
-      <!-- Actions -->
+      <!-- User Menu -->
       <div class="flex items-center gap-3 shrink-0">
-        <!-- User Menu -->
         <UPopover
           :content="{ side: 'bottom', align: 'end', sideOffset: 8 }"
           :ui="{ content: 'z-[200]' }"
@@ -48,28 +47,14 @@
                 <p class="text-sm text-white/80 font-medium">{{ authUser.username }}</p>
                 <p class="text-xs text-white/35 mt-0.5">{{ authUser.email }}</p>
               </div>
-              <a
-                v-for="item in socialLinks"
-                :key="item.label"
-                :href="item.url"
-                target="_blank"
-                rel="noopener"
-                class="contact-item group"
-              >
-                <UIcon :name="item.icon" class="size-4 shrink-0" :style="{ color: item.color }" />
-                <span class="text-[13px] text-white/65 group-hover:text-white transition-colors">{{ item.label }}</span>
-              </a>
-              <div class="mx-2.5 my-1 h-px bg-white/6" />
-              <button class="contact-item group w-full" @click="copyEmail">
-                <UIcon :name="copied ? 'i-lucide-check' : 'i-lucide-mail'" class="size-4 shrink-0" :style="{ color: copied ? '#4ade80' : '#ff3e3e' }" />
-                <span class="text-[13px] transition-colors" :class="copied ? 'text-emerald-400' : 'text-white/65 group-hover:text-white'">
-                  {{ copied ? 'Kopyalandı!' : 'example@gmail.com' }}
-                </span>
-              </button>
-              <div class="mx-2.5 my-1 h-px bg-white/6" />
-              <button class="contact-item group w-full" @click="handleLogout">
+              <NuxtLink to="/profile" class="menu-item group w-full">
+                <UIcon name="i-lucide-settings" class="size-4 shrink-0 text-white/35" />
+                <span class="text-[13px] text-white/65 group-hover:text-white transition-colors">{{ $t('profile.title') }}</span>
+              </NuxtLink>
+              <div class="mx-2.5 my-0.5 h-px bg-white/6" />
+              <button class="menu-item group w-full" @click="handleLogout">
                 <UIcon name="i-lucide-log-out" class="size-4 shrink-0 text-red-400" />
-                <span class="text-[13px] text-white/65 group-hover:text-red-400 transition-colors">Cikis Yap</span>
+                <span class="text-[13px] text-white/65 group-hover:text-red-400 transition-colors">{{ $t('auth.signOut') }}</span>
               </button>
             </div>
           </template>
@@ -89,14 +74,14 @@
         @click="$emit('update:modelValue', tab.key)"
       >
         <UIcon :name="tab.icon" class="size-3.5" />
-        {{ tab.label }}
+        {{ $t(`nav.${tab.i18nKey}`) }}
       </button>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
-import type { MediaCategory, CategoryTab } from '~/types/media'
+import type { MediaCategory } from '~/types/media'
 
 defineProps<{
   modelValue: MediaCategory
@@ -106,39 +91,15 @@ defineEmits<{
   'update:modelValue': [value: MediaCategory]
 }>()
 
-const tabs: CategoryTab[] = [
-  { key: 'film', label: 'Film', icon: 'i-lucide-clapperboard' },
-  { key: 'dizi', label: 'Dizi', icon: 'i-lucide-tv' },
-  { key: 'anime', label: 'Anime', icon: 'i-lucide-sparkles' },
-  { key: 'manga', label: 'Manga', icon: 'i-lucide-book-open' }
+const tabs = [
+  { key: 'film' as MediaCategory, i18nKey: 'film', icon: 'i-lucide-clapperboard' },
+  { key: 'dizi' as MediaCategory, i18nKey: 'series', icon: 'i-lucide-tv' },
+  { key: 'anime' as MediaCategory, i18nKey: 'anime', icon: 'i-lucide-sparkles' },
+  { key: 'manga' as MediaCategory, i18nKey: 'manga', icon: 'i-lucide-book-open' },
 ]
-
-interface SocialLink {
-  label: string
-  icon: string
-  url: string
-  color: string
-}
 
 const { user: authUser, logout } = useAuth()
-
 const scrolled = ref(false)
-const copied = ref(false)
-
-const socialLinks: SocialLink[] = [
-  { label: 'GitHub', icon: 'i-simple-icons-github', url: 'https://github.com/example', color: '#e6edf3' },
-  { label: 'LinkedIn', icon: 'i-simple-icons-linkedin', url: 'https://www.linkedin.com/in/example/', color: '#0a66c2' },
-  { label: 'Instagram', icon: 'i-simple-icons-instagram', url: 'https://www.instagram.com/example', color: '#e4405f' },
-  { label: 'Discord', icon: 'i-simple-icons-discord', url: 'https://discord.com/channels/0000000000000', color: '#5865f2' }
-]
-
-async function copyEmail(): Promise<void> {
-  try {
-    await navigator.clipboard.writeText('example@gmail.com')
-    copied.value = true
-    setTimeout(() => { copied.value = false }, 2000)
-  } catch { /* fallback */ }
-}
 
 function handleLogout(): void {
   logout()
@@ -159,7 +120,7 @@ onUnmounted(() => {
 
 <style scoped>
 .user-panel {
-  width: 220px;
+  width: 200px;
   padding: 4px;
   background: #1c1c1c;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -167,7 +128,7 @@ onUnmounted(() => {
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
 }
 
-.contact-item {
+.menu-item {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -178,7 +139,7 @@ onUnmounted(() => {
   transition: background 0.15s ease;
 }
 
-.contact-item:hover {
+.menu-item:hover {
   background: rgba(255, 255, 255, 0.06);
 }
 

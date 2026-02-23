@@ -94,6 +94,34 @@ async function register(username: string, email: string, password: string): Prom
   }
 }
 
+async function updateProfile(data: { username: string, email: string, newPassword: string, currentPassword: string }): Promise<string | null> {
+  authLoading.value = true
+  try {
+    const res = await $fetch<AuthResponse>('/api/auth/update.php', {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: data,
+    })
+
+    if (res.success) {
+      token.value = res.token
+      user.value = res.user
+      localStorage.setItem(TOKEN_KEY, res.token)
+      localStorage.setItem(USER_KEY, JSON.stringify(res.user))
+      return null
+    }
+
+    return res.message || 'Guncelleme basarisiz.'
+  }
+  catch (e: unknown) {
+    const err = e as { data?: { message?: string }, message?: string }
+    return err.data?.message || err.message || 'Bir hata olustu.'
+  }
+  finally {
+    authLoading.value = false
+  }
+}
+
 function logout(): void {
   token.value = null
   user.value = null
@@ -102,7 +130,7 @@ function logout(): void {
   localStorage.removeItem(USER_KEY)
   const { clearItems } = useMediaStore()
   clearItems()
-  navigateTo('/login')
+  navigateTo('/')
 }
 
 function getAuthHeaders(): Record<string, string> {
@@ -120,6 +148,7 @@ export function useAuth() {
     authReady,
     login,
     register,
+    updateProfile,
     logout,
     getAuthHeaders,
   }

@@ -23,8 +23,8 @@
       <div class="flex items-center justify-center size-16 rounded-2xl bg-white/[0.03] border border-white/6 mb-5">
         <UIcon :name="emptyIcon" class="size-7 text-white/15" />
       </div>
-      <p class="text-white/30 text-sm mb-1">Henüz bir şey eklenmemiş</p>
-      <p class="text-white/20 text-xs">Yukarıdaki arama kutusunu kullanarak {{ categoryLabel }} ekleyin</p>
+      <p class="text-white/30 text-sm mb-1">{{ $t('media.emptyTitle') }}</p>
+      <p class="text-white/20 text-xs">{{ $t('media.emptySubtitle', { category: categoryLabel }) }}</p>
     </div>
   </div>
 </template>
@@ -41,22 +41,24 @@ defineEmits<{
   select: [item: MediaItem]
 }>()
 
+const { t } = useI18n()
+
 const iconMap: Record<MediaCategory, string> = {
   film: 'i-lucide-clapperboard',
   dizi: 'i-lucide-tv',
   anime: 'i-lucide-sparkles',
-  manga: 'i-lucide-book-open'
+  manga: 'i-lucide-book-open',
 }
 
-const labelMap: Record<MediaCategory, string> = {
-  film: 'film',
-  dizi: 'dizi',
-  anime: 'anime',
-  manga: 'manga'
+const labelKeyMap: Record<MediaCategory, string> = {
+  film: 'media.categoryFilm',
+  dizi: 'media.categorySeries',
+  anime: 'media.categoryAnime',
+  manga: 'media.categoryManga',
 }
 
 const emptyIcon = computed(() => iconMap[props.category])
-const categoryLabel = computed(() => labelMap[props.category])
+const categoryLabel = computed(() => t(labelKeyMap[props.category]))
 </script>
 
 <style scoped>

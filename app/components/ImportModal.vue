@@ -47,17 +47,15 @@
                 <input
                   v-model="anilistUsername"
                   type="text"
-                  placeholder="AniList kullanici adi"
+                  :placeholder="$t('import.anilistUsername')"
                   :disabled="loading"
                   class="w-full pl-9 pr-4 py-2.5 bg-white/5 border border-white/8 rounded-lg text-sm text-white/90 placeholder-white/30 outline-none transition-all duration-200 focus:border-primary-500/40 focus:bg-white/7 disabled:opacity-50"
                   @keydown.enter.prevent="startAniListImport"
                 >
               </div>
               <p class="text-white/25 text-xs leading-relaxed">
-                AniList profilinizin herkese acik olmasi gerekiyor.
-                Kullanici adinizi
-                <a href="https://anilist.co" target="_blank" class="text-primary-400 hover:underline">anilist.co</a>
-                adresinizden bulabilirsiniz.
+                {{ $t('import.anilistNote', { link: '' }).split(linkPlaceholder)[0] }}
+                <a href="https://anilist.co" target="_blank" class="text-primary-400 hover:underline">anilist.co</a>{{ $t('import.anilistNote', { link: '' }).split(linkPlaceholder)[1] || '' }}
               </p>
             </div>
 
@@ -73,7 +71,7 @@
                   :class="csvFile ? 'text-primary-400' : 'text-white/20'"
                 />
                 <span class="text-xs" :class="csvFile ? 'text-primary-300' : 'text-white/30'">
-                  {{ csvFile ? csvFile.name : 'CSV dosyasi secin veya surukleyin' }}
+                  {{ csvFile ? csvFile.name : $t('import.csvSelect') }}
                 </span>
                 <input
                   type="file"
@@ -85,12 +83,12 @@
               </label>
               <div class="space-y-2">
                 <p class="text-white/25 text-xs leading-relaxed">
-                  IMDb watchlist'inizi CSV olarak indirmek icin:
+                  {{ $t('import.imdbNote') }}
                 </p>
                 <ol class="text-white/25 text-xs leading-relaxed list-decimal list-inside space-y-1">
-                  <li><a href="https://www.imdb.com/list/watchlist" target="_blank" class="text-primary-400 hover:underline">IMDb Watchlist</a> sayfaniza gidin</li>
-                  <li>Sag ustteki <span class="text-white/40">...</span> menusunden <span class="text-white/40">Export</span> secin</li>
-                  <li>Indirilen CSV dosyasini buraya yukleyin</li>
+                  <li><a href="https://www.imdb.com/list/watchlist" target="_blank" class="text-primary-400 hover:underline">IMDb Watchlist</a> {{ $t('import.imdbStep1', { link: '' }) }}</li>
+                  <li>{{ $t('import.imdbStep2', { dots: '...', action: 'Export' }) }}</li>
+                  <li>{{ $t('import.imdbStep3') }}</li>
                 </ol>
               </div>
             </div>
@@ -108,9 +106,9 @@
                 />
               </div>
               <div class="flex gap-4 text-xs">
-                <span class="text-emerald-400/70">{{ importProgress.imported }} eklendi</span>
-                <span v-if="importProgress.skipped" class="text-amber-400/70">{{ importProgress.skipped }} atlandi</span>
-                <span v-if="importProgress.failed" class="text-red-400/70">{{ importProgress.failed }} basarisiz</span>
+                <span class="text-emerald-400/70">{{ importProgress.imported }} {{ $t('import.added') }}</span>
+                <span v-if="importProgress.skipped" class="text-amber-400/70">{{ importProgress.skipped }} {{ $t('import.skipped') }}</span>
+                <span v-if="importProgress.failed" class="text-red-400/70">{{ importProgress.failed }} {{ $t('import.failed') }}</span>
               </div>
             </div>
 
@@ -124,7 +122,7 @@
             <div v-if="!loading && importProgress && !error" class="mt-4 flex items-center gap-2 px-3 py-2.5 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
               <UIcon name="i-lucide-check-circle" class="size-4 text-emerald-400 shrink-0" />
               <span class="text-xs text-emerald-300">
-                Import tamamlandi! {{ importProgress.imported }} icerik eklendi.
+                {{ $t('import.importComplete', { count: importProgress.imported }) }}
               </span>
             </div>
 
@@ -135,7 +133,7 @@
                 class="px-4 py-2 text-sm text-white/50 hover:text-white/70 transition-colors cursor-pointer"
                 @click="close"
               >
-                Kapat
+                {{ $t('import.close') }}
               </button>
               <button
                 v-if="!importProgress || loading"
@@ -148,7 +146,7 @@
                   name="i-lucide-loader-2"
                   class="size-4 animate-spin"
                 />
-                {{ loading ? 'Yukleniyor...' : 'Ice Aktar' }}
+                {{ loading ? $t('import.loading') : $t('import.startImport') }}
               </button>
             </div>
           </div>
@@ -171,18 +169,18 @@ const emit = defineEmits<{
   'update:open': [value: boolean]
 }>()
 
+const { t } = useI18n()
 const { importFromAniList, importFromImdbCsv, importProgress, loading, error } = useMediaApi()
 const { addItem } = useMediaStore()
 
 const anilistUsername = ref('')
 const csvFile = ref<File | null>(null)
+const linkPlaceholder = ''
 
 const isAniList = computed(() => props.category === 'anime' || props.category === 'manga')
-const modalTitle = computed(() => isAniList.value ? 'AniList Import' : 'IMDb Watchlist Import')
+const modalTitle = computed(() => isAniList.value ? t('import.anilistImport') : t('import.imdbImport'))
 const modalSubtitle = computed(() =>
-  isAniList.value
-    ? 'AniList listenizi kullanici adi ile iceri aktarin'
-    : 'IMDb watchlist CSV dosyanizi yukleyin'
+  isAniList.value ? t('import.anilistSubtitle') : t('import.imdbSubtitle'),
 )
 
 const canStart = computed(() => {
