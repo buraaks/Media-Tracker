@@ -16,7 +16,7 @@ if ($currentPassword === '') {
 }
 
 $db   = getDB();
-$stmt = $db->prepare('SELECT id, username, email, password_hash FROM users WHERE id = ?');
+$stmt = $db->prepare('SELECT id, username, email, password_hash, email_verified FROM users WHERE id = ?');
 $stmt->execute([$auth['user_id']]);
 $user = $stmt->fetch();
 
@@ -63,16 +63,19 @@ if ($newEmail !== $user['email']) {
     }
 }
 
+$emailChanged = ($newEmail !== $user['email']);
+$emailVerified = $emailChanged ? 0 : $user['email_verified'];
+
 if ($newPassword !== '') {
     if (strlen($newPassword) < 6) {
         jsonError('Yeni sifre en az 6 karakter olmali.');
     }
     $hash = password_hash($newPassword, PASSWORD_DEFAULT);
-    $stmt = $db->prepare('UPDATE users SET username = ?, email = ?, password_hash = ? WHERE id = ?');
-    $stmt->execute([$newUsername, $newEmail, $hash, $user['id']]);
+    $stmt = $db->prepare('UPDATE users SET username = ?, email = ?, password_hash = ?, email_verified = ? WHERE id = ?');
+    $stmt->execute([$newUsername, $newEmail, $hash, $emailVerified, $user['id']]);
 } else {
-    $stmt = $db->prepare('UPDATE users SET username = ?, email = ? WHERE id = ?');
-    $stmt->execute([$newUsername, $newEmail, $user['id']]);
+    $stmt = $db->prepare('UPDATE users SET username = ?, email = ?, email_verified = ? WHERE id = ?');
+    $stmt->execute([$newUsername, $newEmail, $emailVerified, $user['id']]);
 }
 
 $token = generateToken((int) $user['id'], $newUsername);
@@ -82,8 +85,9 @@ jsonResponse([
     'message' => 'Profil guncellendi.',
     'token'   => $token,
     'user'    => [
-        'id'       => (int) $user['id'],
-        'username' => $newUsername,
-        'email'    => $newEmail,
+        'id'             => (int) $user['id'],
+        'username'       => $newUsername,
+        'email'          => $newEmail,
+        'email_verified' => (bool) $emailVerified,
     ],
 ]);

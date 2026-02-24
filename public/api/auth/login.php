@@ -16,7 +16,7 @@ if ($username === '' || $password === '') {
 }
 
 $db   = getDB();
-$stmt = $db->prepare('SELECT id, username, email, password_hash FROM users WHERE username = ?');
+$stmt = $db->prepare('SELECT id, username, email, password_hash, email_verified FROM users WHERE username = ?');
 $stmt->execute([$username]);
 $user = $stmt->fetch();
 
@@ -32,6 +32,7 @@ jsonResponse([
     'user'    => [
         'id'       => (int) $user['id'],
         'username' => $user['username'],
-        'email'    => $user['email'],
+        'email'          => $user['email'],
+        'email_verified' => (bool) $user['email_verified'],
     ],
 ]);

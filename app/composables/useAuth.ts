@@ -2,6 +2,7 @@ export interface AuthUser {
   id: number
   username: string
   email: string
+  email_verified: boolean
 }
 
 interface AuthResponse {
@@ -165,6 +166,21 @@ async function loginWithGoogle(credential: string): Promise<string | null> {
   }
 }
 
+async function refreshUser(): Promise<void> {
+  if (!token.value) return
+  try {
+    const data = await $fetch<AuthResponse>('/api/auth/me.php', {
+      headers: getAuthHeaders()
+    })
+    if (data.success && data.user) {
+      user.value = data.user
+      localStorage.setItem(USER_KEY, JSON.stringify(data.user))
+    }
+  } catch (e) {
+    // Ignore error, just keep current user details
+  }
+}
+
 export function useAuth() {
   init()
   return {
@@ -179,5 +195,6 @@ export function useAuth() {
     logout,
     getAuthHeaders,
     loginWithGoogle,
+    refreshUser,
   }
 }

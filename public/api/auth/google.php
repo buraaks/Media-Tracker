@@ -41,12 +41,12 @@ $name     = $googleData['name'] ?? explode('@', $email)[0];
 
 $db = getDB();
 
-$stmt = $db->prepare('SELECT id, username, email FROM users WHERE google_id = ?');
+$stmt = $db->prepare('SELECT id, username, email, email_verified FROM users WHERE google_id = ?');
 $stmt->execute([$googleId]);
 $user = $stmt->fetch();
 
 if (!$user) {
-    $stmt = $db->prepare('SELECT id, username, email FROM users WHERE email = ?');
+    $stmt = $db->prepare('SELECT id, username, email, email_verified FROM users WHERE email = ?');
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
@@ -73,10 +73,13 @@ if (!$user) {
 
         $userId = (int) $db->lastInsertId();
         $user   = [
-            'id'       => $userId,
-            'username' => $username,
-            'email'    => $email,
+            'id'             => $userId,
+            'username'       => $username,
+            'email'          => $email,
+            'email_verified' => 1,
         ];
+    } else {
+        $user['email_verified'] = 1;
     }
 }
 
@@ -86,8 +89,9 @@ jsonResponse([
     'success' => true,
     'token'   => $token,
     'user'    => [
-        'id'       => (int) $user['id'],
-        'username' => $user['username'],
-        'email'    => $user['email'],
+        'id'             => (int) $user['id'],
+        'username'       => $user['username'],
+        'email'          => $user['email'],
+        'email_verified' => (bool) $user['email_verified'],
     ],
 ]);

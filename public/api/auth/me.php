@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 $auth = requireAuth();
 
 $db   = getDB();
-$stmt = $db->prepare('SELECT id, username, email, created_at FROM users WHERE id = ?');
+$stmt = $db->prepare('SELECT id, username, email, created_at, email_verified FROM users WHERE id = ?');
 $stmt->execute([$auth['user_id']]);
 $user = $stmt->fetch();
 
@@ -23,7 +23,8 @@ jsonResponse([
     'user'    => [
         'id'         => (int) $user['id'],
         'username'   => $user['username'],
-        'email'      => $user['email'],
-        'created_at' => $user['created_at'],
+        'email'          => $user['email'],
+        'email_verified' => (bool) $user['email_verified'],
+        'created_at'     => $user['created_at'],
     ],
 ]);

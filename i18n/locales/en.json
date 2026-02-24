@@ -109,6 +109,14 @@
     "backToApp": "Back to App",
     "invalidLink": "Invalid or missing verification link.",
     "emailVerified": "Your email has been verified successfully.",
-    "error": "An error occurred."
+    "error": "An error occurred.",
+    "title": "Email Verification",
+    "description": "Please verify your email address to secure your account.",
+    "sendCode": "Send Verification Code",
+    "sending": "Sending...",
+    "codeSent": "Code sent! Please check your email.",
+    "enterCode": "6-Digit Verification Code",
+    "verifyButton": "Verify",
+    "verified": "Your email is verified"
   }
 }

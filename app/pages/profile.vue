@@ -26,7 +26,7 @@
       <!-- Edit Account -->
       <section class="mb-8">
         <h2 class="text-white/50 text-xs font-semibold uppercase tracking-wider mb-4">{{ $t('profile.editAccount') }}</h2>
-        <form class="bg-white/[0.03] border border-white/6 rounded-xl p-5 space-y-4" @submit.prevent="handleSave">
+        <form class="bg-white/3 border border-white/6 rounded-xl p-5 space-y-4" @submit.prevent="handleSave">
           <!-- Username -->
           <div>
             <label class="block text-white/50 text-xs font-medium mb-1.5">{{ $t('profile.username') }}</label>
@@ -116,10 +116,62 @@
         </form>
       </section>
 
+      <!-- Email Verification -->
+      <section v-if="!authUser?.email_verified" class="mb-8">
+        <h2 class="text-white/50 text-xs font-semibold uppercase tracking-wider mb-4">{{ $t('verify.title') }}</h2>
+        <div class="bg-white/3 border border-orange-500/20 rounded-xl p-5 space-y-4 relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-1 h-full bg-orange-500"></div>
+          
+          <div class="flex items-start gap-3">
+            <UIcon name="i-lucide-alert-triangle" class="size-5 text-orange-400 shrink-0 mt-0.5" />
+            <div>
+              <p class="text-sm text-white/90 font-medium">{{ $t('verify.description') }}</p>
+              <p class="text-xs text-white/50 mt-1">{{ authUser?.email }}</p>
+            </div>
+          </div>
+
+          <div v-if="!verificationSent" class="pt-2">
+            <button
+              type="button"
+              @click="sendCode"
+              :disabled="sendingCode"
+              class="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/8 text-white text-sm font-medium rounded-lg transition-all duration-200"
+            >
+              <UIcon v-if="sendingCode" name="i-lucide-loader-2" class="size-4 animate-spin" />
+              <UIcon v-else name="i-lucide-mail" class="size-4" />
+              {{ sendingCode ? $t('verify.sending') : $t('verify.sendCode') }}
+            </button>
+            <p v-if="sendCodeError" class="text-xs text-red-400 mt-2">{{ sendCodeError }}</p>
+          </div>
+
+          <form v-else @submit.prevent="verifyCode" class="pt-2 space-y-3">
+            <p class="text-xs text-emerald-400 font-medium">{{ $t('verify.codeSent') }}</p>
+            <div class="flex gap-2">
+              <input
+                v-model="verificationCode"
+                type="text"
+                maxlength="6"
+                :placeholder="$t('verify.enterCode')"
+                class="flex-1 px-4 py-2 bg-white/5 border border-white/8 rounded-lg text-sm text-center text-white/90 tracking-widest outline-none focus:border-primary-500/40"
+              >
+              <button
+                type="submit"
+                :disabled="verifying || verificationCode.length !== 6"
+                class="px-5 py-2 bg-primary-500 hover:bg-primary-600 disabled:bg-white/8 disabled:text-white/30 text-white text-sm font-medium rounded-lg transition-all duration-200"
+              >
+                <UIcon v-if="verifying" name="i-lucide-loader-2" class="size-4 animate-spin" />
+                <span v-else>{{ $t('verify.verifyButton') }}</span>
+              </button>
+            </div>
+            <p v-if="verifyError" class="text-xs text-red-400">{{ verifyError }}</p>
+          </form>
+        </div>
+      </section>
+
       <!-- Settings -->
       <section class="mb-8">
         <h2 class="text-white/50 text-xs font-semibold uppercase tracking-wider mb-4">{{ $t('profile.settings') }}</h2>
-        <div class="bg-white/[0.03] border border-white/6 rounded-xl overflow-hidden">
+        <div class="bg-white/3 border border-white/6 rounded-xl overflow-hidden">
           <div class="flex items-center justify-between px-5 py-4">
             <div class="flex items-center gap-3">
               <UIcon name="i-lucide-languages" class="size-4 text-white/30" />
@@ -152,7 +204,7 @@
       <!-- Sign Out -->
       <section>
         <button
-          class="w-full flex items-center justify-between px-5 py-4 bg-white/[0.03] border border-white/6 hover:border-red-500/20 hover:bg-red-500/5 rounded-xl transition-all duration-200 cursor-pointer group"
+          class="w-full flex items-center justify-between px-5 py-4 bg-white/3 border border-white/6 hover:border-red-500/20 hover:bg-red-500/5 rounded-xl transition-all duration-200 cursor-pointer group"
           @click="handleLogout"
         >
           <div class="flex items-center gap-3">
@@ -168,8 +220,66 @@
 
 <script setup lang="ts">
 const { t } = useI18n()
-const { user: authUser, updateProfile, authLoading: saving, logout } = useAuth()
+const { user: authUser, updateProfile, authLoading: saving, logout, getAuthHeaders, refreshUser } = useAuth()
 const { locale, setLocale } = useI18n()
+
+// Email Verification State
+const sendingCode = ref(false)
+const verificationSent = ref(false)
+const sendCodeError = ref('')
+
+const verifying = ref(false)
+const verificationCode = ref('')
+const verifyError = ref('')
+
+async function sendCode() {
+  if (sendingCode.value) return
+  sendingCode.value = true
+  sendCodeError.value = ''
+  
+  try {
+    const res = await $fetch<{ success: boolean, message?: string }>('/api/auth/send_verification_code.php', {
+      method: 'POST',
+      headers: getAuthHeaders()
+    })
+    if (res.success) {
+      verificationSent.value = true
+    } else {
+      sendCodeError.value = res.message || 'Error'
+    }
+  } catch (e: any) {
+    sendCodeError.value = e.data?.message || e.message || t('verify.error')
+  } finally {
+    sendingCode.value = false
+  }
+}
+
+async function verifyCode() {
+  if (verifying.value || verificationCode.value.length !== 6) return
+  verifying.value = true
+  verifyError.value = ''
+  
+  try {
+    const res = await $fetch<{ success: boolean, message?: string }>('/api/auth/verify_email.php', {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: { code: verificationCode.value }
+    })
+    
+    if (res.success) {
+      // Re-fetch user to get the true email_verified state
+      await refreshUser()
+      successMsg.value = t('verify.emailVerified')
+      setTimeout(() => { successMsg.value = '' }, 3000)
+    } else {
+      verifyError.value = res.message || 'Error'
+    }
+  } catch (e: any) {
+    verifyError.value = e.data?.message || e.message || t('verify.error')
+  } finally {
+    verifying.value = false
+  }
+}
 
 const form = reactive({
   username: authUser.value?.username ?? '',

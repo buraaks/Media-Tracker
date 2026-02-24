@@ -46,17 +46,13 @@ if ($stmt->fetch()) {
     jsonError('Bu e-posta adresi zaten kullaniliyor.');
 }
 
-$passwordHash      = password_hash($password, PASSWORD_DEFAULT);
-$verificationToken = bin2hex(random_bytes(32));
+$passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
-$stmt = $db->prepare('INSERT INTO users (username, email, password_hash, verification_token) VALUES (?, ?, ?, ?)');
-$stmt->execute([$username, $email, $passwordHash, $verificationToken]);
+$stmt = $db->prepare('INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)');
+$stmt->execute([$username, $email, $passwordHash]);
 
 $userId = (int) $db->lastInsertId();
 $token  = generateToken($userId, $username);
-
-// Send verification email
-sendVerificationEmail($email, $username, $verificationToken);
 
 jsonResponse([
     'success' => true,
@@ -64,7 +60,8 @@ jsonResponse([
     'user'    => [
         'id'       => $userId,
         'username' => $username,
-        'email'    => $email,
+        'email'          => $email,
+        'email_verified' => false,
     ],
 ], 201);
 

@@ -12,3 +12,6 @@ define('GOOGLE_CLIENT_ID', 'your_google_client_id_here');
 
 // Site URL (e-posta dogrulama linkleri icin)
 define('SITE_URL', 'https://your-domain.com');
+
+// E-posta Gonderici Adresi
+define('MAIL_FROM_ADDRESS', 'noreply@your-domain.com');

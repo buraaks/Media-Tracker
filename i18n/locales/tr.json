@@ -109,6 +109,14 @@
     "backToApp": "Uygulamaya Dön",
     "invalidLink": "Geçersiz veya eksik doğrulama bağlantısı.",
     "emailVerified": "E-posta adresiniz başarıyla doğrulandı.",
-    "error": "Bir hata oluştu."
+    "error": "Bir hata oluştu.",
+    "title": "E-posta Doğrulama",
+    "description": "Hesabınızı güvene almak için e-posta adresinizi doğrulayın.",
+    "sendCode": "Doğrulama Kodu Gönder",
+    "sending": "Gönderiliyor...",
+    "codeSent": "Kod gönderildi! Lütfen e-postanızı kontrol edin.",
+    "enterCode": "6 Haneli Doğrulama Kodu",
+    "verifyButton": "Doğrula",
+    "verified": "E-postanız doğrulandı"
   }
 }
