@@ -15,3 +15,9 @@ define('SITE_URL', 'https://your-domain.com');
 
 // E-posta Gonderici Adresi
 define('MAIL_FROM_ADDRESS', 'noreply@your-domain.com');
+
+// SMTP Ayarları (E-posta Gönderimi İçin)
+define('SMTP_HOST', 'mail.your-domain.com');
+define('SMTP_USER', 'noreply@your-domain.com');
+define('SMTP_PASS', 'your_smtp_password');
+define('SMTP_PORT', 465); // SSL için 465, TLS için 587

@@ -43,6 +43,10 @@ jobs:
             echo "define('GOOGLE_CLIENT_ID', '${{ secrets.GOOGLE_CLIENT_ID }}');"
             echo "define('SITE_URL', '${{ secrets.SITE_URL }}');"
             echo "define('MAIL_FROM_ADDRESS', '${{ secrets.MAIL_FROM_ADDRESS }}');"
+            echo "define('SMTP_HOST', '${{ secrets.SMTP_HOST }}');"
+            echo "define('SMTP_USER', '${{ secrets.SMTP_USER }}');"
+            echo "define('SMTP_PASS', '${{ secrets.SMTP_PASS }}');"
+            echo "define('SMTP_PORT', ${{ secrets.SMTP_PORT }});"
           } > public/api/config.php
 
       - name: Nuxt static generate

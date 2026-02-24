@@ -115,10 +115,40 @@ function sendVerificationEmail(string $to, string $username, string $token): voi
 </html>
 HTML;
 
-    $headers  = "From: Media Tracker <{$from}>\r\n";
-    $headers .= "Reply-To: {$from}\r\n";
-    $headers .= "MIME-Version: 1.0\r\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+    require_once __DIR__ . '/PHPMailer/Exception.php';
+    require_once __DIR__ . '/PHPMailer/PHPMailer.php';
+    require_once __DIR__ . '/PHPMailer/SMTP.php';
 
-    @mail($to, $subject, $body, $headers);
+    $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+
+    try {
+        // Sunucu ayarlari
+        $mail->isSMTP();
+        $mail->Host       = defined('SMTP_HOST') ? SMTP_HOST : 'localhost';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = defined('SMTP_USER') ? SMTP_USER : '';
+        $mail->Password   = defined('SMTP_PASS') ? SMTP_PASS : '';
+        $mail->Port       = defined('SMTP_PORT') ? SMTP_PORT : 465;
+        
+        if ($mail->Port == 587) {
+            $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+        } else {
+            $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS;
+        }
+        
+        $mail->CharSet    = 'UTF-8';
+
+        // Alici ayarlari
+        $mail->setFrom($from, 'Media Tracker');
+        $mail->addAddress($to, $username);
+
+        // Icerik
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $body;
+
+        $mail->send();
+    } catch (\PHPMailer\PHPMailer\Exception $e) {
+        error_log("E-posta gonderilemedi. Mailer Hatasi: {$mail->ErrorInfo}");
+    }
 }
