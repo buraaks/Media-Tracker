@@ -88,15 +88,17 @@ if (!$user) {
         $stmt->execute([$username, $email, $googleId, $passwordHash]);
 
         $userId = (int) $db->lastInsertId();
-        $user   = [
+        $user = [
             'id'             => $userId,
             'username'       => $username,
             'email'          => $email,
             'email_verified' => 1,
         ];
-    } else {
-        $user['email_verified'] = 1;
     }
+}
+
+if (!$user) {
+    jsonError('Giriş başarısız oldu.', 500);
 }
 
 $token = generateToken((int) $user['id'], $user['username']);
