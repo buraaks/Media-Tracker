@@ -10,6 +10,7 @@ interface AuthResponse {
   token: string
   user: AuthUser
   message?: string
+  require_password?: boolean
 }
 
 const TOKEN_KEY = 'auth_token'
@@ -139,12 +140,12 @@ function getAuthHeaders(): Record<string, string> {
   return t ? { Authorization: `Bearer ${t}` } : {}
 }
 
-async function loginWithGoogle(credential: string): Promise<string | null> {
+async function loginWithGoogle(credential: string, password?: string): Promise<{error: string | null; requirePassword?: boolean}> {
   authLoading.value = true
   try {
     const data = await $fetch<AuthResponse>('/api/auth/google.php', {
       method: 'POST',
-      body: { credential },
+      body: { credential, password },
     })
 
     if (data.success) {
@@ -152,14 +153,21 @@ async function loginWithGoogle(credential: string): Promise<string | null> {
       user.value = data.user
       localStorage.setItem(TOKEN_KEY, data.token)
       localStorage.setItem(USER_KEY, JSON.stringify(data.user))
-      return null
+      return { error: null }
     }
 
-    return data.message || 'Google ile giris basarisiz.'
+    if (data.require_password) {
+      return { error: null, requirePassword: true }
+    }
+
+    return { error: data.message || 'Google ile giris basarisiz.' }
   }
   catch (e: unknown) {
-    const err = e as { data?: { message?: string }, message?: string }
-    return err.data?.message || err.message || 'Bir hata olustu.'
+    const err = e as { data?: { message?: string, require_password?: boolean }, message?: string }
+    if (err.data?.require_password) {
+      return { error: null, requirePassword: true }
+    }
+    return { error: err.data?.message || err.message || 'Bir hata olustu.' }
   }
   finally {
     authLoading.value = false

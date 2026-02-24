@@ -68,8 +68,24 @@ if (!$user) {
             $counter++;
         }
 
-        $stmt = $db->prepare('INSERT INTO users (username, email, email_verified, google_id) VALUES (?, ?, 1, ?)');
-        $stmt->execute([$username, $email, $googleId]);
+        $password = $input['password'] ?? '';
+        
+        if ($password === '') {
+            jsonResponse([
+                'success' => false,
+                'require_password' => true,
+                'message' => 'Hesabınızı oluşturmak için lütfen bir şifre belirleyin.'
+            ]);
+        }
+
+        if (strlen($password) < 6) {
+            jsonError('Şifre en az 6 karakter olmalıdır.');
+        }
+
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
+        $stmt = $db->prepare('INSERT INTO users (username, email, email_verified, google_id, password_hash) VALUES (?, ?, 1, ?, ?)');
+        $stmt->execute([$username, $email, $googleId, $passwordHash]);
 
         $userId = (int) $db->lastInsertId();
         $user   = [
