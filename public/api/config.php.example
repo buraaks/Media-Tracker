@@ -1,0 +1,14 @@
+<?php
+// Bu dosyayi config.php olarak kopyalayin ve kendi bilgilerinizi girin
+
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_NAME', 'media_tracker');
+define('JWT_SECRET', 'your_super_secret_jwt_key_here'); // MUTLAKA DEGISTIRIN!
+
+// Google Oauth Client ID
+define('GOOGLE_CLIENT_ID', 'your_google_client_id_here');
+
+// Site URL (e-posta dogrulama linkleri icin)
+define('SITE_URL', 'https://your-domain.com');

@@ -138,6 +138,33 @@ function getAuthHeaders(): Record<string, string> {
   return t ? { Authorization: `Bearer ${t}` } : {}
 }
 
+async function loginWithGoogle(credential: string): Promise<string | null> {
+  authLoading.value = true
+  try {
+    const data = await $fetch<AuthResponse>('/api/auth/google.php', {
+      method: 'POST',
+      body: { credential },
+    })
+
+    if (data.success) {
+      token.value = data.token
+      user.value = data.user
+      localStorage.setItem(TOKEN_KEY, data.token)
+      localStorage.setItem(USER_KEY, JSON.stringify(data.user))
+      return null
+    }
+
+    return data.message || 'Google ile giris basarisiz.'
+  }
+  catch (e: unknown) {
+    const err = e as { data?: { message?: string }, message?: string }
+    return err.data?.message || err.message || 'Bir hata olustu.'
+  }
+  finally {
+    authLoading.value = false
+  }
+}
+
 export function useAuth() {
   init()
   return {
@@ -151,5 +178,6 @@ export function useAuth() {
     updateProfile,
     logout,
     getAuthHeaders,
+    loginWithGoogle,
   }
 }

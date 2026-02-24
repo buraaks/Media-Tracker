@@ -90,3 +90,34 @@ function requireAuth(): array {
 
     return $payload;
 }
+
+function sendVerificationEmail(string $to, string $username, string $token): void {
+    $siteUrl    = defined('SITE_URL') ? SITE_URL : '';
+    $verifyLink = $siteUrl . '/verify-email?token=' . urlencode($token);
+    $domain     = parse_url($siteUrl, PHP_URL_HOST) ?: 'example.com';
+    $from       = 'noreply@' . $domain;
+
+    $subject = 'Media Tracker - E-posta Dogrulamasi';
+
+    $body = <<<HTML
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #1a1a1a; color: #e0e0e0; padding: 40px 20px;">
+  <div style="max-width: 480px; margin: 0 auto; background: #242424; border-radius: 12px; padding: 32px; border: 1px solid rgba(255,255,255,0.06);">
+    <h2 style="margin: 0 0 8px; color: #f0f0f0; font-size: 20px;">Merhaba, {$username}!</h2>
+    <p style="color: #999; font-size: 14px; margin: 0 0 24px;">Media Tracker'a hosgeldiniz. E-posta adresinizi dogrulamak icin asagidaki butona tiklayin.</p>
+    <a href="{$verifyLink}" style="display: inline-block; padding: 12px 28px; background: #ef4444; color: #fff; text-decoration: none; border-radius: 8px; font-size: 14px; font-weight: 600;">E-postami Dogrula</a>
+    <p style="color: #666; font-size: 12px; margin: 24px 0 0;">Bu e-postayi siz talep etmediyseniz, guvenlice goz ardi edebilirsiniz.</p>
+  </div>
+</body>
+</html>
+HTML;
+
+    $headers  = "From: Media Tracker <{$from}>\r\n";
+    $headers .= "Reply-To: {$from}\r\n";
+    $headers .= "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+
+    @mail($to, $subject, $body, $headers);
+}

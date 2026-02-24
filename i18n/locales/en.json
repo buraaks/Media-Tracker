@@ -35,7 +35,8 @@
     "signingIn": "Signing in...",
     "signingUp": "Signing up...",
     "noAccount": "Don't have an account?",
-    "hasAccount": "Already have an account?"
+    "hasAccount": "Already have an account?",
+    "orContinueWith": "Or continue with"
   },
   "tracker": {
     "myMovies": "My Movies",
@@ -99,5 +100,15 @@
     "close": "Close",
     "loading": "Loading...",
     "startImport": "Import"
+  },
+  "verify": {
+    "verifying": "Verifying Email...",
+    "pleaseWait": "Please wait, verifying your token.",
+    "success": "Verification Successful!",
+    "failed": "Verification Failed",
+    "backToApp": "Back to App",
+    "invalidLink": "Invalid or missing verification link.",
+    "emailVerified": "Your email has been verified successfully.",
+    "error": "An error occurred."
   }
 }

@@ -20,7 +20,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      omdbApiKey: ''
+      omdbApiKey: '',
+      googleClientId: ''
     }
   },
 

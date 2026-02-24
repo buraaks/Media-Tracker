@@ -40,12 +40,15 @@ jobs:
             echo "define('DB_USER', '${{ secrets.DB_USER }}');"
             echo "define('DB_PASS', '${{ secrets.DB_PASS }}');"
             echo "define('JWT_SECRET', '${{ secrets.JWT_SECRET }}');"
+            echo "define('GOOGLE_CLIENT_ID', '${{ secrets.GOOGLE_CLIENT_ID }}');"
+            echo "define('SITE_URL', '${{ secrets.SITE_URL }}');"
           } > public/api/config.php
 
       - name: Nuxt static generate
         run: pnpm generate
         env:
           NUXT_PUBLIC_OMDB_API_KEY: ${{ secrets.OMDB_API_KEY }}
+          NUXT_PUBLIC_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
 
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5

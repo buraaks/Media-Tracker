@@ -35,7 +35,8 @@
     "signingIn": "Giriş yapılıyor...",
     "signingUp": "Kayıt yapılıyor...",
     "noAccount": "Hesabınız yok mu?",
-    "hasAccount": "Zaten hesabınız var mı?"
+    "hasAccount": "Zaten hesabınız var mı?",
+    "orContinueWith": "Veya şunlarla devam et"
   },
   "tracker": {
     "myMovies": "Filmlerim",
@@ -99,5 +100,15 @@
     "close": "Kapat",
     "loading": "Yükleniyor...",
     "startImport": "İçe Aktar"
+  },
+  "verify": {
+    "verifying": "E-posta Doğrulanıyor...",
+    "pleaseWait": "Lütfen bekleyin, token doğrulanıyor.",
+    "success": "Doğrulama Başarılı!",
+    "failed": "Doğrulama Başarısız",
+    "backToApp": "Uygulamaya Dön",
+    "invalidLink": "Geçersiz veya eksik doğrulama bağlantısı.",
+    "emailVerified": "E-posta adresiniz başarıyla doğrulandı.",
+    "error": "Bir hata oluştu."
   }
 }

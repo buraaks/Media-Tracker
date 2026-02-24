@@ -2,7 +2,7 @@
   <div class="min-h-screen flex items-center justify-center px-4 relative">
     <!-- Language Switcher -->
     <button
-      class="absolute top-4 right-4 px-2.5 py-1.5 text-xs font-medium text-white/40 hover:text-white/70 bg-white/[0.03] hover:bg-white/[0.06] border border-white/6 hover:border-white/10 rounded-lg transition-all duration-200 cursor-pointer"
+      class="absolute top-4 right-4 px-2.5 py-1.5 text-xs font-medium text-white/40 hover:text-white/70 bg-white/3 hover:bg-white/6 border border-white/6 hover:border-white/10 rounded-lg transition-all duration-200 cursor-pointer"
       @click="toggleLocale"
     >
       {{ locale === 'tr' ? 'EN' : 'TR' }}
@@ -84,6 +84,9 @@
           {{ $t('auth.signUp') }}
         </NuxtLink>
       </p>
+
+      <!-- Social Login -->
+      <SocialAuth />
     </div>
   </div>
 </template>
