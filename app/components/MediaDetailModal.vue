@@ -105,10 +105,19 @@
                 <textarea
                   v-model="localNotes"
                   rows="3"
+                  maxlength="250"
                   :placeholder="$t('media.notesPlaceholder')"
                   class="w-full px-3 py-2.5 bg-white/4 border border-white/8 rounded-lg text-sm text-white/80 placeholder-white/20 outline-none transition-all duration-200 focus:border-primary-500/30 focus:bg-white/6 resize-none"
                   @blur="saveNotes"
                 />
+                <div class="flex justify-end mt-1">
+                  <span 
+                    class="text-[10px] transition-colors duration-200"
+                    :class="localNotes.length >= 240 ? 'text-red-400' : 'text-white/20'"
+                  >
+                    {{ localNotes.length }}/250
+                  </span>
+                </div>
               </div>
 
               <!-- Remove -->
