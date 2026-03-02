@@ -97,14 +97,15 @@ const scrolled = ref(false)
 
 const activeCategory = computed(() => {
   const path = route.path
-  if (!path.startsWith('/tracker')) return null
+  const segments = path.split('/').filter(Boolean)
   
-  if (path.includes('/tracker/film')) return 'film'
-  if (path.includes('/tracker/dizi')) return 'dizi'
-  if (path.includes('/tracker/anime')) return 'anime'
-  if (path.includes('/tracker/manga')) return 'manga'
+  if (segments[0] !== 'tracker') return null
   
-  return 'film'
+  // If we are at /tracker, default to film highlight
+  if (segments.length === 1) return 'film'
+  
+  // Otherwise return the category from the second segment (film, dizi, anime, manga)
+  return segments[1] as MediaCategory
 })
 
 function handleLogout(): void {
