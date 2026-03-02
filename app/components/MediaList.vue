@@ -1,31 +1,35 @@
 <template>
-  <div>
-    <!-- Grid -->
-    <TransitionGroup
-      v-if="items.length"
-      name="list"
-      tag="div"
-      class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4"
-    >
-      <MediaCard
-        v-for="item in items"
-        :key="item.id"
-        :item="item"
-        @select="$emit('select', $event)"
-      />
-    </TransitionGroup>
+  <div class="relative min-h-[400px]">
+    <Transition name="fade-list" mode="out-in">
+      <!-- Grid -->
+      <TransitionGroup
+        v-if="items.length"
+        :key="category + '-list'"
+        name="list"
+        tag="div"
+        class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4"
+      >
+        <MediaCard
+          v-for="item in items"
+          :key="item.id"
+          :item="item"
+          @select="$emit('select', $event)"
+        />
+      </TransitionGroup>
 
-    <!-- Empty State -->
-    <div
-      v-else
-      class="flex flex-col items-center justify-center py-20 text-center"
-    >
-      <div class="flex items-center justify-center size-16 rounded-2xl bg-white/3 border border-white/6 mb-5">
-        <UIcon :name="emptyIcon" class="size-7 text-white/15" />
+      <!-- Empty State -->
+      <div
+        v-else
+        :key="category + '-empty'"
+        class="flex flex-col items-center justify-center py-20 text-center"
+      >
+        <div class="flex items-center justify-center size-16 rounded-2xl bg-white/3 border border-white/6 mb-5">
+          <UIcon :name="emptyIcon" class="size-7 text-white/15" />
+        </div>
+        <p class="text-white/30 text-sm mb-1">{{ $t('media.emptyTitle') }}</p>
+        <p class="text-white/20 text-xs">{{ $t('media.emptySubtitle', { category: categoryLabel }) }}</p>
       </div>
-      <p class="text-white/30 text-sm mb-1">{{ $t('media.emptyTitle') }}</p>
-      <p class="text-white/20 text-xs">{{ $t('media.emptySubtitle', { category: categoryLabel }) }}</p>
-    </div>
+    </Transition>
   </div>
 </template>
 
@@ -78,5 +82,15 @@ const categoryLabel = computed(() => t(labelKeyMap[props.category]))
 }
 .list-move {
   transition: transform 0.3s ease;
+}
+
+.fade-list-enter-active,
+.fade-list-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-list-enter-from,
+.fade-list-leave-to {
+  opacity: 0;
 }
 </style>
