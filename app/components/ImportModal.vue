@@ -1,6 +1,6 @@
 <template>
   <Teleport to="body">
-    <div v-if="open" class="fixed inset-0 z-[100]">
+    <div v-if="open" class="fixed inset-0 z-100">
       <!-- Overlay -->
       <Transition name="overlay">
         <div
@@ -62,7 +62,7 @@
             <!-- IMDb CSV Form -->
             <div v-else class="space-y-4">
               <label
-                class="flex flex-col items-center justify-center gap-2 py-6 border-2 border-dashed border-white/8 rounded-xl cursor-pointer transition-all duration-200 hover:border-primary-500/30 hover:bg-white/[0.02]"
+                class="flex flex-col items-center justify-center gap-2 py-6 border-2 border-dashed border-white/8 rounded-xl cursor-pointer transition-all duration-200 hover:border-primary-500/30 hover:bg-white/2"
                 :class="{ 'border-primary-500/40 bg-primary-500/5': csvFile }"
               >
                 <UIcon

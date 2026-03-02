@@ -43,7 +43,7 @@
                 class="w-full flex items-center gap-3 px-3 py-2.5 text-left transition-all duration-150 cursor-pointer"
                 :class="i === selectedIndex
                   ? 'bg-primary-500/10'
-                  : 'hover:bg-white/[0.04]'"
+                  : 'hover:bg-white/4'"
                 @click="selectItem(result)"
                 @mouseenter="selectedIndex = i"
               >
@@ -198,13 +198,15 @@ async function selectItem(result: SearchResult): Promise<void> {
 }
 
 async function handleSubmit(): Promise<void> {
-  if (selectedIndex.value >= 0 && results.value[selectedIndex.value]) {
-    await selectItem(results.value[selectedIndex.value])
+  const selected = results.value[selectedIndex.value]
+  if (selectedIndex.value >= 0 && selected) {
+    await selectItem(selected)
     return
   }
 
-  if (results.value.length > 0) {
-    await selectItem(results.value[0])
+  const firstResult = results.value[0]
+  if (firstResult) {
+    await selectItem(firstResult)
     return
   }
 
@@ -212,7 +214,7 @@ async function handleSubmit(): Promise<void> {
   if (!trimmed) return
 
   const res = await searchMultiple(trimmed, props.category)
-  if (res.length > 0) {
+  if (res.length > 0 && res[0]) {
     results.value = res
     await selectItem(res[0])
   }

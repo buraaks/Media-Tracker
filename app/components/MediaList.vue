@@ -20,7 +20,7 @@
       v-else
       class="flex flex-col items-center justify-center py-20 text-center"
     >
-      <div class="flex items-center justify-center size-16 rounded-2xl bg-white/[0.03] border border-white/6 mb-5">
+      <div class="flex items-center justify-center size-16 rounded-2xl bg-white/3 border border-white/6 mb-5">
         <UIcon :name="emptyIcon" class="size-7 text-white/15" />
       </div>
       <p class="text-white/30 text-sm mb-1">{{ $t('media.emptyTitle') }}</p>

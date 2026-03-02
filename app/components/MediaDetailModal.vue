@@ -1,6 +1,6 @@
 <template>
   <Teleport to="body">
-    <div v-if="open && item" class="fixed inset-0 z-[100]">
+    <div v-if="open && item" class="fixed inset-0 z-100">
       <!-- Overlay -->
       <Transition name="overlay">
         <div
@@ -33,7 +33,7 @@
                 :alt="item.title"
                 class="absolute inset-0 w-full h-full object-cover opacity-30 blur-sm scale-110"
               >
-              <div class="absolute inset-0 bg-gradient-to-t from-[#1c1c1c] via-[#1c1c1c]/60 to-transparent" />
+              <div class="absolute inset-0 bg-linear-to-t from-[#1c1c1c] via-[#1c1c1c]/60 to-transparent" />
               <div class="absolute bottom-0 left-0 right-0 p-6 max-sm:p-4 flex items-end gap-4">
                 <img
                   v-if="item.image"
@@ -88,7 +88,7 @@
                   v-model="localNotes"
                   rows="3"
                   :placeholder="$t('media.notesPlaceholder')"
-                  class="w-full px-3 py-2.5 bg-white/[0.04] border border-white/8 rounded-lg text-sm text-white/80 placeholder-white/20 outline-none transition-all duration-200 focus:border-primary-500/30 focus:bg-white/[0.06] resize-none"
+                  class="w-full px-3 py-2.5 bg-white/4 border border-white/8 rounded-lg text-sm text-white/80 placeholder-white/20 outline-none transition-all duration-200 focus:border-primary-500/30 focus:bg-white/6 resize-none"
                   @blur="saveNotes"
                 />
               </div>

@@ -37,7 +37,7 @@
           :content="{ side: 'bottom', align: 'end', sideOffset: 8 }"
           :ui="{ content: 'z-[200]' }"
         >
-          <button class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/6 hover:bg-white/[0.08] hover:border-white/10 transition-all duration-200 cursor-pointer">
+          <button class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/4 border border-white/6 hover:bg-white/8 hover:border-white/10 transition-all duration-200 cursor-pointer">
             <UIcon name="i-lucide-user" class="size-3.5 text-primary-400" />
             <span v-if="authUser" class="text-xs text-white/60 max-sm:hidden">{{ authUser.username }}</span>
           </button>

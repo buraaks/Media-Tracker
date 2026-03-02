@@ -13,7 +13,7 @@
         <div class="flex items-center gap-3 max-sm:gap-2">
           <!-- Language Switcher -->
           <button
-            class="px-2.5 py-1.5 text-xs font-medium text-white/40 hover:text-white/70 bg-white/[0.03] hover:bg-white/[0.06] border border-white/6 hover:border-white/10 rounded-lg transition-all duration-200 cursor-pointer"
+            class="px-2.5 py-1.5 text-xs font-medium text-white/40 hover:text-white/70 bg-white/3 hover:bg-white/6 border border-white/6 hover:border-white/10 rounded-lg transition-all duration-200 cursor-pointer"
             @click="toggleLocale"
           >
             {{ locale === 'tr' ? 'EN' : 'TR' }}
@@ -75,7 +75,7 @@
         <div
           v-for="feature in features"
           :key="feature.key"
-          class="flex flex-col items-center gap-3 p-5 bg-white/[0.03] border border-white/6 rounded-xl max-sm:p-4"
+          class="flex flex-col items-center gap-3 p-5 bg-white/3 border border-white/6 rounded-xl max-sm:p-4"
         >
           <div class="flex items-center justify-center size-10 rounded-lg bg-white/5 border border-white/6">
             <UIcon :name="feature.icon" class="size-5" :style="{ color: feature.color }" />
