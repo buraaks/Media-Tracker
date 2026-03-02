@@ -81,7 +81,13 @@
     "saved": "Değişiklikler kaydedildi.",
     "settings": "Ayarlar",
     "language": "Dil",
-    "signOut": "Çıkış Yap"
+    "signOut": "Çıkış Yap",
+    "appInstallation": "Uygulama Kurulumu",
+    "installAppTitle": "Uygulamayı Yükle",
+    "installAppSubtitle": "Daha hızlı erişim ve tam ekran deneyimi için yükleyin",
+    "installButton": "Şimdi Yükle",
+    "installManualHint": "Eğer buton görünmüyorsa; mobilde tarayıcı menüsünden 'Ana Ekrana Ekle' seçeneğini, masaüstünde ise adres çubuğundaki yükle simgesini kullanabilirsiniz.",
+    "readyToInstall": "Yüklemeye Hazır"
   },
   "import": {
     "anilistImport": "AniList Import",

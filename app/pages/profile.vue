@@ -259,6 +259,39 @@
         </div>
       </section>
 
+      <!-- App Installation (PWA) -->
+      <section v-if="!isStandalone" class="mb-8">
+        <h2 class="text-white/50 text-xs font-semibold uppercase tracking-wider mb-4">{{ $t('profile.appInstallation') }}</h2>
+        <div class="bg-white/3 border border-primary-500/20 rounded-xl p-5 relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-1 h-full bg-primary-500"></div>
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <div class="flex items-center justify-center size-10 rounded-xl bg-primary-500/10 shrink-0">
+                <UIcon name="i-lucide-smartphone" class="size-5 text-primary-500" />
+              </div>
+              <div>
+                <p class="text-sm font-medium text-white/90">{{ $t('profile.installAppTitle') }}</p>
+                <p class="text-xs text-white/40 mt-0.5" v-if="installPrompt">{{ $t('profile.installAppSubtitle') }}</p>
+                <p class="text-[10px] text-orange-400/70 mt-1 leading-relaxed" v-else>
+                  {{ $t('profile.installManualHint') }}
+                </p>
+              </div>
+            </div>
+            <button
+              v-if="installPrompt"
+              @click="installPWA"
+              class="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-xs font-semibold rounded-lg transition-all duration-200 shadow-lg shadow-primary-500/20 cursor-pointer"
+            >
+              {{ $t('profile.installButton') }}
+            </button>
+            <div v-else class="flex items-center gap-1.5 px-3 py-1.5 bg-white/5 border border-white/8 rounded-lg">
+              <UIcon name="i-lucide-info" class="size-3.5 text-white/30" />
+              <span class="text-[10px] text-white/40 font-medium whitespace-nowrap uppercase tracking-wider">{{ $t('profile.readyToInstall') }}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- Sign Out -->
       <section>
         <button
@@ -296,10 +329,33 @@ const { locale, setLocale } = useI18n()
 const importOpen = ref(false)
 const importCategory = ref<MediaCategory>('film')
 
+const installPrompt = ref<any>(null)
+
+const isStandalone = computed(() => {
+  if (import.meta.server) return false
+  return window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true
+})
+
 function openImport(category: MediaCategory) {
   importCategory.value = category
   importOpen.value = true
 }
+
+async function installPWA() {
+  if (!installPrompt.value) return
+  installPrompt.value.prompt()
+  const { outcome } = await installPrompt.value.userChoice
+  if (outcome === 'accepted') {
+    installPrompt.value = null
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault()
+    installPrompt.value = e
+  })
+})
 
 // Email Verification State
 const sendingCode = ref(false)

@@ -81,7 +81,13 @@
     "saved": "Changes saved successfully.",
     "settings": "Settings",
     "language": "Language",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "appInstallation": "App Installation",
+    "installAppTitle": "Install App",
+    "installAppSubtitle": "Install for faster access and a better full-screen experience",
+    "installButton": "Install Now",
+    "installManualHint": "If the button is not visible; you can use 'Add to Home Screen' from browser menu on mobile, or use the install icon in the address bar on desktop.",
+    "readyToInstall": "Ready to install"
   },
   "import": {
     "anilistImport": "AniList Import",

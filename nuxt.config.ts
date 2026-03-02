@@ -10,6 +10,8 @@ export default defineNuxtConfig({
       description: 'Film, Dizi, Anime ve Manga Takip Uygulaması',
       theme_color: '#1a1a1a',
       background_color: '#1a1a1a',
+      display: 'standalone',
+      start_url: '/tracker',
       icons: [
         {
           src: 'favicon.svg',
