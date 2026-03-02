@@ -62,7 +62,7 @@
         </p>
 
         <NuxtLink
-          :to="isAuthenticated ? '/tracker/film/' : '/register'"
+          :to="isAuthenticated ? '/tracker/' : '/register'"
           class="inline-flex items-center gap-2 px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-xl transition-all duration-200 hover:shadow-[0_8px_24px_rgba(255,62,62,0.25)]"
         >
           {{ isAuthenticated ? $t('home.myList') : $t('home.cta') }}

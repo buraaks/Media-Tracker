@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen">
+  <div class="h-screen overflow-y-auto custom-scrollbar bg-[#1a1a1a]">
     <!-- Header -->
     <header class="sticky top-0 z-50 backdrop-blur-2xl bg-[#1a1a1a]/60 border-b border-white/6">
       <div class="max-w-275 mx-auto px-8 py-3.5 flex items-center justify-between max-sm:px-4">
@@ -407,6 +407,24 @@ function handleLogout(): void {
 </script>
 
 <style scoped>
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .fade-enter-active, .fade-leave-active { transition: opacity 0.2s ease; }
 .fade-enter-from, .fade-leave-to { opacity: 0; }
 </style>
