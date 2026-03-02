@@ -81,10 +81,14 @@
               <input
                 v-model="form.currentPassword"
                 type="password"
+                name="current_password_field"
                 :placeholder="$t('profile.currentPasswordPlaceholder')"
                 :disabled="saving"
-                autocomplete="current-password"
+                readonly
+                autocomplete="one-time-code"
                 class="w-full pl-9 pr-4 py-2.5 bg-white/5 border border-white/8 rounded-lg text-sm text-white/90 placeholder-white/25 outline-none transition-all duration-200 focus:border-primary-500/40 focus:bg-white/7 disabled:opacity-50"
+                @focus="($event.target as HTMLInputElement).readOnly = false"
+                @mousedown="($event.target as HTMLInputElement).readOnly = false"
               >
             </div>
           </div>
