@@ -70,9 +70,27 @@
                 {{ item.extra }}
               </p>
 
-              <p v-if="item.plot" class="text-white/55 text-sm leading-relaxed">
-                {{ item.plot }}
-              </p>
+              <div v-if="item.plot" class="relative">
+                <p 
+                  class="text-white/55 text-sm leading-relaxed transition-all duration-300"
+                  :class="{ 'line-clamp-3': !isExpanded && item.plot.length > 180 }"
+                >
+                  {{ item.plot }}
+                </p>
+                <button
+                  v-if="item.plot.length > 180"
+                  type="button"
+                  class="mt-1 flex items-center gap-1 text-xs font-medium text-primary-400 hover:text-primary-300 transition-colors cursor-pointer group"
+                  @click="isExpanded = !isExpanded"
+                >
+                  {{ isExpanded ? $t('media.showLess') || 'Daha az göster' : $t('media.readMore') || 'Devamını oku' }}
+                  <UIcon 
+                    :name="isExpanded ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'" 
+                    class="size-3.5 transition-transform duration-300 group-hover:translate-y-0.5"
+                    :class="{ 'group-hover:-translate-y-0.5': isExpanded }"
+                  />
+                </button>
+              </div>
 
               <p v-if="!item.plot && !item.genre && !item.extra" class="text-white/25 text-sm italic">
                 {{ $t('media.noDetails') }}
@@ -126,10 +144,12 @@ const emit = defineEmits<{
 
 const { updateNotes } = useMediaStore()
 const localNotes = ref('')
+const isExpanded = ref(false)
 
 watch(() => props.open, (val) => {
   if (val && props.item) {
     localNotes.value = props.item.notes ?? ''
+    isExpanded.value = false
   }
   if (import.meta.client) {
     document.body.style.overflow = val ? 'hidden' : ''
