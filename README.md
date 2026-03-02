@@ -6,7 +6,7 @@ It includes authentication, profile management, notes, import tools, and a PHP +
 ## Features
 
 - Track content by category: movies, series, anime, manga
-- Authentication: register, login, logout
+- Authentication: register, login, logout (with email verification)
 - Profile page: update username, email, and password (requires current password)
 - Personal notes for each media item
 - Import support:
@@ -44,9 +44,14 @@ Create a `.env` file in project root:
 
 ```env
 NUXT_PUBLIC_OMDB_API_KEY=your_omdb_api_key_here
+NUXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_client_id_here
 ```
 
-### 3) Run dev server
+### 3) API Configuration (Local)
+
+For local development, you need to manually create or edit `public/api/config.php` to define your database credentials and SMTP settings (required for email verification).
+
+### 4) Run dev server
 
 ```bash
 pnpm dev
@@ -73,16 +78,12 @@ Do not commit `config.php`.
 
 Required secrets:
 
-- `DB_HOST`
-- `DB_NAME`
-- `DB_USER`
-- `DB_PASS`
-- `JWT_SECRET`
-- `OMDB_API_KEY`
-- `FTP_SERVER`
-- `FTP_USERNAME`
-- `FTP_PASSWORD`
-- `FTP_PATH`
+- `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS` (Database)
+- `JWT_SECRET` (Auth)
+- `OMDB_API_KEY` (External Data)
+- `MAIL_FROM_ADDRESS`, `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS`, `SMTP_PORT` (Email)
+- `SITE_URL` (Frontend URL for email verification links)
+- `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`, `FTP_PATH` (Deployment)
 
 ## Deploy
 
