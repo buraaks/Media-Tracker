@@ -22,7 +22,7 @@
           :key="tab.key"
           :to="`/tracker/${tab.key}`"
           class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium tracking-wide transition-all duration-200 cursor-pointer"
-          :class="modelValue === tab.key
+          :class="activeCategory === tab.key
             ? 'text-primary-500 bg-primary-500/10'
             : 'text-white/50 hover:text-white/80 hover:bg-white/4'"
         >
@@ -69,7 +69,7 @@
         :key="tab.key"
         :to="`/tracker/${tab.key}`"
         class="flex items-center gap-1.5 px-3 py-2.5 text-xs font-medium whitespace-nowrap transition-all duration-200 cursor-pointer border-b-2 flex-1 justify-center"
-        :class="modelValue === tab.key
+        :class="activeCategory === tab.key
           ? 'text-primary-500 border-primary-500 bg-primary-500/5'
           : 'text-white/45 border-transparent hover:text-white/70'"
       >
@@ -83,13 +83,7 @@
 <script setup lang="ts">
 import type { MediaCategory } from '~/types/media'
 
-defineProps<{
-  modelValue: MediaCategory
-}>()
-
-defineEmits<{
-  'update:modelValue': [value: MediaCategory]
-}>()
+const route = useRoute()
 
 const tabs = [
   { key: 'film' as MediaCategory, i18nKey: 'film', icon: 'i-lucide-clapperboard' },
@@ -100,6 +94,15 @@ const tabs = [
 
 const { user: authUser, logout } = useAuth()
 const scrolled = ref(false)
+
+const activeCategory = computed(() => {
+  const path = route.path
+  if (path.includes('/tracker/film')) return 'film'
+  if (path.includes('/tracker/dizi')) return 'dizi'
+  if (path.includes('/tracker/anime')) return 'anime'
+  if (path.includes('/tracker/manga')) return 'manga'
+  return 'film'
+})
 
 function handleLogout(): void {
   logout()

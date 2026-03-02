@@ -1,50 +1,44 @@
 <template>
   <div>
-    <TheHeader :model-value="category" />
-
     <div class="max-w-275 mx-auto px-8 py-8 max-sm:px-4 max-sm:py-6">
-      <Transition name="page" mode="out-in">
-        <div :key="category">
-          <!-- Category Title + Import -->
-          <div class="flex items-center justify-between mb-6 max-sm:flex-col max-sm:items-start max-sm:gap-3">
-            <div class="flex items-center gap-3">
-              <h1 class="text-white/90 text-xl font-bold">{{ categoryTitle }}</h1>
-              <span
-                v-if="filteredItems.length"
-                class="px-2 py-0.5 bg-white/5 border border-white/8 rounded-md text-xs text-white/35"
-              >
-                {{ filteredItems.length }}
-              </span>
-            </div>
-
-            <button
-              class="flex items-center gap-1.5 px-3 py-1.5 max-sm:py-2 max-sm:px-4 text-xs font-medium text-white/40 hover:text-white/70 bg-white/3 hover:bg-white/6 border border-white/6 hover:border-white/10 rounded-lg transition-all duration-200 cursor-pointer"
-              @click="importOpen = true"
-            >
-              <UIcon :name="importIcon" class="size-3.5" />
-              {{ importLabel }}
-            </button>
-          </div>
-
-          <!-- Add Form -->
-          <div class="mb-8">
-            <AddMediaForm :category="category" />
-          </div>
-
-          <!-- Loading -->
-          <div v-if="!loaded" class="flex items-center justify-center py-16">
-            <UIcon name="i-lucide-loader-2" class="size-6 text-white/20 animate-spin" />
-          </div>
-
-          <!-- Media List -->
-          <MediaList
-            v-else
-            :items="filteredItems"
-            :category="category"
-            @select="openDetail"
-          />
+      <!-- Category Title + Import -->
+      <div class="flex items-center justify-between mb-6 max-sm:flex-col max-sm:items-start max-sm:gap-3">
+        <div class="flex items-center gap-3">
+          <h1 class="text-white/90 text-xl font-bold">{{ categoryTitle }}</h1>
+          <span
+            v-if="filteredItems.length"
+            class="px-2 py-0.5 bg-white/5 border border-white/8 rounded-md text-xs text-white/35"
+          >
+            {{ filteredItems.length }}
+          </span>
         </div>
-      </Transition>
+
+        <button
+          class="flex items-center gap-1.5 px-3 py-1.5 max-sm:py-2 max-sm:px-4 text-xs font-medium text-white/40 hover:text-white/70 bg-white/3 hover:bg-white/6 border border-white/6 hover:border-white/10 rounded-lg transition-all duration-200 cursor-pointer"
+          @click="importOpen = true"
+        >
+          <UIcon :name="importIcon" class="size-3.5" />
+          {{ importLabel }}
+        </button>
+      </div>
+
+      <!-- Add Form -->
+      <div class="mb-8">
+        <AddMediaForm :category="category" />
+      </div>
+
+      <!-- Loading -->
+      <div v-if="!loaded" class="flex items-center justify-center py-16">
+        <UIcon name="i-lucide-loader-2" class="size-6 text-white/20 animate-spin" />
+      </div>
+
+      <!-- Media List -->
+      <MediaList
+        v-else
+        :items="filteredItems"
+        :category="category"
+        @select="openDetail"
+      />
     </div>
 
     <!-- Detail Modal -->

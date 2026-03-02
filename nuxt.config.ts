@@ -31,7 +31,7 @@ export default defineNuxtConfig({
   },
 
   app: {
-    pageTransition: { name: 'page', mode: 'out-in' },
+    pageTransition: false,
     head: {
       title: 'Media Tracker',
       htmlAttrs: {
