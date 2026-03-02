@@ -108,7 +108,7 @@ onMounted(() => {
 
 // Validation
 if (!validCategories.includes(route.params.category as MediaCategory)) {
-  navigateTo('/tracker/film')
+  navigateTo('/tracker/film/')
 }
 </script>
 
