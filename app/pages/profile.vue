@@ -172,6 +172,58 @@
         </div>
       </section>
 
+      <!-- Data Import -->
+      <section class="mb-8">
+        <h2 class="text-white/50 text-xs font-semibold uppercase tracking-wider mb-4">{{ $t('import.startImport') }}</h2>
+        <div class="space-y-3">
+          <!-- AniList -->
+          <div class="bg-white/3 border border-white/6 rounded-xl p-4 flex flex-col gap-3">
+            <div class="flex items-center gap-3 mb-1">
+              <div class="flex items-center justify-center size-8 rounded-lg bg-[#02a9ff]/10">
+                <UIcon name="i-lucide-download" class="size-4 text-[#02a9ff]" />
+              </div>
+              <span class="text-sm font-medium text-white/80">AniList</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <button
+                @click="openImport('anime')"
+                class="flex items-center justify-center gap-2 px-3 py-2 bg-white/5 hover:bg-white/10 border border-white/8 rounded-lg text-xs font-medium text-white/70 transition-all cursor-pointer"
+              >
+                <UIcon name="i-lucide-sparkles" class="size-3.5" />
+                {{ $t('nav.anime') }}
+              </button>
+              <button
+                @click="openImport('manga')"
+                class="flex items-center justify-center gap-2 px-3 py-2 bg-white/5 hover:bg-white/10 border border-white/8 rounded-lg text-xs font-medium text-white/70 transition-all cursor-pointer"
+              >
+                <UIcon name="i-lucide-book-open" class="size-3.5" />
+                {{ $t('nav.manga') }}
+              </button>
+            </div>
+          </div>
+
+          <!-- IMDb -->
+          <div class="bg-white/3 border border-white/6 rounded-xl p-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="flex items-center justify-center size-8 rounded-lg bg-[#f5c518]/10">
+                <UIcon name="i-lucide-file-text" class="size-4 text-[#f5c518]" />
+              </div>
+              <div>
+                <span class="text-sm font-medium text-white/80">IMDb</span>
+                <p class="text-[10px] text-white/30">{{ $t('import.imdbSubtitle') }}</p>
+              </div>
+            </div>
+            <button
+              @click="openImport('film')"
+              class="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/8 rounded-lg text-xs font-medium text-white/70 transition-all cursor-pointer"
+            >
+              <UIcon name="i-lucide-upload" class="size-3.5" />
+              {{ $t('import.startImport') }}
+            </button>
+          </div>
+        </div>
+      </section>
+
       <!-- Settings -->
       <section class="mb-8">
         <h2 class="text-white/50 text-xs font-semibold uppercase tracking-wider mb-4">{{ $t('profile.settings') }}</h2>
@@ -183,6 +235,7 @@
             </div>
             <div class="flex items-center gap-1 bg-white/5 border border-white/8 rounded-lg p-0.5">
               <button
+                type="button"
                 class="px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 cursor-pointer"
                 :class="locale === 'tr'
                   ? 'bg-primary-500/15 text-primary-400 border border-primary-500/20'
@@ -192,6 +245,7 @@
                 TR
               </button>
               <button
+                type="button"
                 class="px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 cursor-pointer"
                 :class="locale === 'en'
                   ? 'bg-primary-500/15 text-primary-400 border border-primary-500/20'
@@ -208,6 +262,7 @@
       <!-- Sign Out -->
       <section>
         <button
+          type="button"
           class="w-full flex items-center justify-between px-5 py-4 bg-white/3 border border-white/6 hover:border-red-500/20 hover:bg-red-500/5 rounded-xl transition-all duration-200 cursor-pointer group"
           @click="handleLogout"
         >
@@ -219,13 +274,32 @@
         </button>
       </section>
     </div>
+
+    <!-- Import Modal -->
+    <ImportModal
+      v-if="importOpen"
+      :open="importOpen"
+      :category="importCategory"
+      @update:open="importOpen = $event"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
+import type { MediaCategory } from '~/types/media'
+
 const { t } = useI18n()
 const { user: authUser, updateProfile, authLoading: saving, logout, getAuthHeaders, refreshUser } = useAuth()
 const { locale, setLocale } = useI18n()
+
+// Import State
+const importOpen = ref(false)
+const importCategory = ref<MediaCategory>('film')
+
+function openImport(category: MediaCategory) {
+  importCategory.value = category
+  importOpen.value = true
+}
 
 // Email Verification State
 const sendingCode = ref(false)

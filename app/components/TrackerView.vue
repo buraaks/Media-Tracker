@@ -41,9 +41,6 @@
 
     <!-- Detail Modal -->
     <MediaDetailModal :open="modalOpen" :item="selectedItem" @update:open="modalOpen = $event" @remove="handleRemove" />
-
-    <!-- Import Modal -->
-    <ImportModal :open="importOpen" :category="category" @update:open="importOpen = $event" />
   </div>
 </template>
 
@@ -57,7 +54,6 @@ const props = defineProps<{
 const { t } = useI18n()
 
 const modalOpen = ref(false)
-const importOpen = ref(false)
 const selectedItem = ref<MediaItem | null>(null)
 
 const { fetchItems, getByCategory, removeItem, loaded } = useMediaStore()
@@ -75,8 +71,6 @@ const categoryTitle = computed(() => {
 })
 
 const isAniList = computed(() => props.category === 'anime' || props.category === 'manga')
-const importIcon = computed(() => isAniList.value ? 'i-lucide-download' : 'i-lucide-file-text')
-const importLabel = computed(() => isAniList.value ? t('import.anilistImport') : t('import.imdbImport'))
 
 function openDetail(item: MediaItem): void {
   selectedItem.value = item
