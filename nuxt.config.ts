@@ -2,7 +2,31 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  modules: ['@nuxt/ui', '@nuxtjs/i18n'],
+  modules: ['@nuxt/ui', '@nuxtjs/i18n', '@vite-pwa/nuxt'],
+  pwa: {
+    manifest: {
+      name: 'Media Tracker',
+      short_name: 'MediaTracker',
+      description: 'Film, Dizi, Anime ve Manga Takip Uygulaması',
+      theme_color: '#1a1a1a',
+      background_color: '#1a1a1a',
+      icons: [
+        {
+          src: 'favicon.svg',
+          sizes: 'any',
+          type: 'image/svg+xml',
+          purpose: 'any maskable'
+        }
+      ]
+    },
+    workbox: {
+      navigateFallback: '/'
+    },
+    devOptions: {
+      enabled: true,
+      type: 'module'
+    }
+  },
 
   i18n: {
     locales: [
