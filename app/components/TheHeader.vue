@@ -17,18 +17,18 @@
 
       <!-- Category Tabs (Desktop) -->
       <nav class="flex items-center gap-1 max-md:hidden">
-        <button
+        <NuxtLink
           v-for="tab in tabs"
           :key="tab.key"
+          :to="`/tracker/${tab.key}`"
           class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium tracking-wide transition-all duration-200 cursor-pointer"
           :class="modelValue === tab.key
             ? 'text-primary-500 bg-primary-500/10'
             : 'text-white/50 hover:text-white/80 hover:bg-white/4'"
-          @click="$emit('update:modelValue', tab.key)"
         >
           <UIcon :name="tab.icon" class="size-4" />
           {{ $t(`nav.${tab.i18nKey}`) }}
-        </button>
+        </NuxtLink>
       </nav>
 
       <!-- User Menu -->
@@ -64,18 +64,18 @@
 
     <!-- Category Tabs (Mobile) -->
     <div class="hidden max-md:flex border-t border-white/5 overflow-x-auto scrollbar-hide">
-      <button
+      <NuxtLink
         v-for="tab in tabs"
         :key="tab.key"
+        :to="`/tracker/${tab.key}`"
         class="flex items-center gap-1.5 px-3 py-2.5 text-xs font-medium whitespace-nowrap transition-all duration-200 cursor-pointer border-b-2 flex-1 justify-center"
         :class="modelValue === tab.key
           ? 'text-primary-500 border-primary-500 bg-primary-500/5'
           : 'text-white/45 border-transparent hover:text-white/70'"
-        @click="$emit('update:modelValue', tab.key)"
       >
         <UIcon :name="tab.icon" class="size-3.5" />
         {{ $t(`nav.${tab.i18nKey}`) }}
-      </button>
+      </NuxtLink>
     </div>
   </header>
 </template>
