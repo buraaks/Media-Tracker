@@ -97,10 +97,13 @@ const scrolled = ref(false)
 
 const activeCategory = computed(() => {
   const path = route.path
-  if (path.includes('/tracker/film/')) return 'film'
-  if (path.includes('/tracker/dizi/')) return 'dizi'
-  if (path.includes('/tracker/anime/')) return 'anime'
-  if (path.includes('/tracker/manga/')) return 'manga'
+  if (!path.startsWith('/tracker')) return null
+  
+  if (path.includes('/tracker/film')) return 'film'
+  if (path.includes('/tracker/dizi')) return 'dizi'
+  if (path.includes('/tracker/anime')) return 'anime'
+  if (path.includes('/tracker/manga')) return 'manga'
+  
   return 'film'
 })
 
