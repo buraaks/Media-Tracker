@@ -1,2 +1,8 @@
+# Satır sonlarını otomatik yönet (Windows/Linux uyumu)
+* text=auto
+
+# Dış kütüphaneleri istatistik dışı tut (GitHub istatistiklerinden çıkar)
 public/api/PHPMailer/** linguist-vendored
-public/api/PHPMailer/*.php linguist-vendored
+
+# Otomatik oluşturulan lock dosyasını istatistik dışı tut
+pnpm-lock.yaml linguist-generated
