@@ -179,8 +179,8 @@
           <!-- AniList -->
           <div class="bg-white/3 border border-white/6 rounded-xl p-4 flex flex-col gap-3">
             <div class="flex items-center gap-3 mb-1">
-              <div class="flex items-center justify-center size-8 rounded-lg">
-                <img src="~/assets/ani.ico" class="size-6 object-contain" alt="AniList" />
+              <div class="flex items-center justify-center size-10 rounded-lg">
+                <img src="~/assets/ani.png" class="size-8 object-contain" alt="AniList" />
               </div>
               <span class="text-sm font-medium text-white/80">AniList</span>
             </div>
@@ -205,8 +205,8 @@
           <!-- IMDb -->
           <div class="bg-white/3 border border-white/6 rounded-xl p-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
-              <div class="flex items-center justify-center size-8 rounded-lg">
-                <img src="~/assets/imdb.ico" class="size-6 object-contain" alt="IMDb" />
+              <div class="flex items-center justify-center size-10 rounded-lg">
+                <img src="~/assets/imdb.png" class="size-8 object-contain" alt="IMDb" />
               </div>
               <div>
                 <span class="text-sm font-medium text-white/80">IMDb</span>
