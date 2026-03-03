@@ -12,7 +12,11 @@ function getByCategory(category: MediaCategory): ComputedRef<MediaItem[]> {
 }
 
 async function fetchItems(): Promise<void> {
-  const { getAuthHeaders, isAuthenticated } = useAuth()
+  const { getAuthHeaders, isAuthenticated, isGuest } = useAuth()
+  if (isGuest.value) {
+    loaded.value = true
+    return
+  }
   if (!isAuthenticated.value) return
 
   try {
@@ -32,13 +36,19 @@ async function fetchItems(): Promise<void> {
 }
 
 async function addItem(item: MediaItem): Promise<boolean> {
-  const { getAuthHeaders, isAuthenticated } = useAuth()
-  if (!isAuthenticated.value) return false
-
+  const { getAuthHeaders, isAuthenticated, isGuest } = useAuth()
+  
   const duplicate = items.value.some(
     existing => existing.id === item.id && existing.category === item.category,
   )
   if (duplicate) return false
+
+  if (isGuest.value) {
+    items.value.push(item)
+    return true
+  }
+
+  if (!isAuthenticated.value) return false
 
   try {
     await $fetch('/api/media/add.php', {
@@ -55,7 +65,12 @@ async function addItem(item: MediaItem): Promise<boolean> {
 }
 
 async function removeItem(id: string): Promise<void> {
-  const { getAuthHeaders } = useAuth()
+  const { getAuthHeaders, isGuest } = useAuth()
+
+  if (isGuest.value) {
+    items.value = items.value.filter(item => item.id !== id)
+    return
+  }
 
   try {
     await $fetch('/api/media/delete.php', {
@@ -71,9 +86,11 @@ async function removeItem(id: string): Promise<void> {
 }
 
 async function updateNotes(id: string, notes: string): Promise<void> {
-  const { getAuthHeaders } = useAuth()
+  const { getAuthHeaders, isGuest } = useAuth()
   const item = items.value.find(i => i.id === id)
   if (item) item.notes = notes
+
+  if (isGuest.value) return
 
   try {
     await $fetch('/api/media/update.php', {

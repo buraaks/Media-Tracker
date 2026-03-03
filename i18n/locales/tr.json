@@ -15,6 +15,7 @@
     "description": "Filmlerini, dizilerini, animelerini ve mangalarını tek bir yerde yönet. Listeni oluştur, not bırak.",
     "cta": "Hemen Başla",
     "myList": "Listem",
+    "browse": "Göz At",
     "contact": "İletişim",
     "copied": "Kopyalandı!"
   },
@@ -36,7 +37,9 @@
     "signingUp": "Kayıt yapılıyor...",
     "noAccount": "Hesabınız yok mu?",
     "hasAccount": "Zaten hesabınız var mı?",
-    "orContinueWith": "Veya şunlarla devam et"
+    "orContinueWith": "Veya şunlarla devam et",
+    "guestMode": "Misafir Modu",
+    "guestWarning": "Misafir modundasınız. Girdiğiniz medyalar kaydedilmeyecek ve bu oturum sonunda silinecektir."
   },
   "tracker": {
     "myMovies": "Filmlerim",

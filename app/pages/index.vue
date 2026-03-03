@@ -61,13 +61,24 @@
           {{ $t('home.description') }}
         </p>
 
-        <NuxtLink
-          :to="isAuthenticated ? '/tracker/' : '/register'"
-          class="inline-flex items-center gap-2 px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-xl transition-all duration-200 hover:shadow-[0_8px_24px_rgba(255,62,62,0.25)]"
-        >
-          {{ isAuthenticated ? $t('home.myList') : $t('home.cta') }}
-          <UIcon name="i-lucide-arrow-right" class="size-4" />
-        </NuxtLink>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <NuxtLink
+            :to="isAuthenticated ? '/tracker/' : '/register'"
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-xl transition-all duration-200 hover:shadow-[0_8px_24px_rgba(255,62,62,0.25)]"
+          >
+            {{ isAuthenticated ? $t('home.myList') : $t('home.cta') }}
+            <UIcon name="i-lucide-arrow-right" class="size-4" />
+          </NuxtLink>
+
+          <button
+            v-if="!isAuthenticated"
+            @click="loginAsGuest"
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white/70 hover:text-white font-medium rounded-xl transition-all duration-200 cursor-pointer"
+          >
+            <UIcon name="i-lucide-eye" class="size-4" />
+            {{ $t('home.browse') }}
+          </button>
+        </div>
       </div>
 
       <!-- Feature Cards -->
@@ -108,7 +119,7 @@
 </template>
 
 <script setup lang="ts">
-const { isAuthenticated } = useAuth()
+const { isAuthenticated, loginAsGuest } = useAuth()
 const { locale, setLocale } = useI18n()
 
 const features = [

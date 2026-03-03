@@ -15,6 +15,7 @@
     "description": "Manage your movies, series, anime and manga in one place. Build your list, leave notes.",
     "cta": "Get Started",
     "myList": "My List",
+    "browse": "Browse",
     "contact": "Contact",
     "copied": "Copied!"
   },
@@ -36,7 +37,9 @@
     "signingUp": "Signing up...",
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",
-    "orContinueWith": "Or continue with"
+    "orContinueWith": "Or continue with",
+    "guestMode": "Guest Mode",
+    "guestWarning": "You are in guest mode. Your entries will not be saved and will be deleted at the end of this session."
   },
   "tracker": {
     "myMovies": "My Movies",

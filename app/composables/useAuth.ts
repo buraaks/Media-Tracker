@@ -18,6 +18,7 @@ const USER_KEY = 'auth_user'
 
 const user = ref<AuthUser | null>(null)
 const token = ref<string | null>(null)
+const isGuest = ref(false)
 const authLoading = ref(false)
 const authReady = ref(false)
 
@@ -127,12 +128,18 @@ async function updateProfile(data: { username: string, email: string, newPasswor
 function logout(): void {
   token.value = null
   user.value = null
+  isGuest.value = false
   initialized = false
   localStorage.removeItem(TOKEN_KEY)
   localStorage.removeItem(USER_KEY)
   const { clearItems } = useMediaStore()
   clearItems()
   navigateTo('/')
+}
+
+function loginAsGuest(): void {
+  isGuest.value = true
+  navigateTo('/tracker')
 }
 
 function getAuthHeaders(): Record<string, string> {
@@ -194,6 +201,7 @@ export function useAuth() {
   return {
     user: readonly(user),
     token: readonly(token),
+    isGuest: readonly(isGuest),
     isAuthenticated,
     authLoading,
     authReady,
@@ -204,5 +212,6 @@ export function useAuth() {
     getAuthHeaders,
     loginWithGoogle,
     refreshUser,
+    loginAsGuest,
   }
 }
