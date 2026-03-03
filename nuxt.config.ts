@@ -55,7 +55,7 @@ export default defineNuxtConfig({
     ],
     defaultLocale: 'tr',
     strategy: 'no_prefix',
-    langDir: 'locales',
+    langDir: 'i18n/locales',
   },
   css: ['~/assets/css/main.css'],
   colorMode: {

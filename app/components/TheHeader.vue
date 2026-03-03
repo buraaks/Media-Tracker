@@ -40,6 +40,7 @@
           <button class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/4 border border-white/6 hover:bg-white/8 hover:border-white/10 transition-all duration-200 cursor-pointer">
             <UIcon name="i-lucide-user" class="size-3.5 text-primary-400" />
             <span v-if="authUser" class="text-xs text-white/60 max-sm:hidden">{{ authUser.username }}</span>
+            <span v-else-if="isGuest" class="text-xs text-white/60 max-sm:hidden">{{ $t('auth.guestMode') }}</span>
           </button>
           <template #content>
             <div class="user-panel">
@@ -47,15 +48,29 @@
                 <p class="text-sm text-white/80 font-medium">{{ authUser.username }}</p>
                 <p class="text-xs text-white/35 mt-0.5">{{ authUser.email }}</p>
               </div>
-              <NuxtLink to="/profile" class="menu-item group w-full">
+              <div v-else-if="isGuest" class="px-3 py-2.5 border-b border-white/6">
+                <p class="text-sm text-white/80 font-medium">{{ $t('auth.guestMode') }}</p>
+                <p class="text-[11px] text-white/35 mt-1 leading-relaxed">{{ $t('auth.guestWarning') }}</p>
+              </div>
+
+              <NuxtLink v-if="!isGuest" to="/profile" class="menu-item group w-full">
                 <UIcon name="i-lucide-settings" class="size-4 shrink-0 text-white/35" />
                 <span class="text-[13px] text-white/65 group-hover:text-white transition-colors">{{ $t('profile.title') }}</span>
               </NuxtLink>
-              <div class="mx-2.5 my-0.5 h-px bg-white/6" />
+              
+              <div v-if="!isGuest" class="mx-2.5 my-0.5 h-px bg-white/6" />
+              
               <button class="menu-item group w-full" @click="handleLogout">
                 <UIcon name="i-lucide-log-out" class="size-4 shrink-0 text-red-400" />
-                <span class="text-[13px] text-white/65 group-hover:text-red-400 transition-colors">{{ $t('auth.signOut') }}</span>
+                <span class="text-[13px] text-white/65 group-hover:text-red-400 transition-colors">
+                  {{ isGuest ? $t('auth.signOut') : $t('auth.signOut') }}
+                </span>
               </button>
+
+              <NuxtLink v-if="isGuest" to="/register" class="menu-item group w-full mt-1 bg-primary-500/10 hover:bg-primary-500/20">
+                <UIcon name="i-lucide-user-plus" class="size-4 shrink-0 text-primary-400" />
+                <span class="text-[13px] text-primary-300 font-medium">{{ $t('auth.signUp') }}</span>
+              </NuxtLink>
             </div>
           </template>
         </UPopover>
@@ -92,7 +107,7 @@ const tabs = [
   { key: 'manga' as MediaCategory, i18nKey: 'manga', icon: 'i-lucide-book-open' },
 ]
 
-const { user: authUser, logout } = useAuth()
+const { user: authUser, isGuest, logout } = useAuth()
 const scrolled = ref(false)
 
 const activeCategory = computed(() => {

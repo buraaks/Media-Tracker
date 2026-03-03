@@ -19,6 +19,7 @@ const USER_KEY = 'auth_user'
 const user = ref<AuthUser | null>(null)
 const token = ref<string | null>(null)
 const isGuest = ref(false)
+const GUEST_KEY = 'auth_guest'
 const authLoading = ref(false)
 const authReady = ref(false)
 
@@ -38,6 +39,8 @@ function init(): void {
       user.value = null
     }
   }
+
+  isGuest.value = sessionStorage.getItem(GUEST_KEY) === 'true'
   authReady.value = true
 }
 
@@ -132,6 +135,7 @@ function logout(): void {
   initialized = false
   localStorage.removeItem(TOKEN_KEY)
   localStorage.removeItem(USER_KEY)
+  sessionStorage.removeItem(GUEST_KEY)
   const { clearItems } = useMediaStore()
   clearItems()
   navigateTo('/')
@@ -139,6 +143,7 @@ function logout(): void {
 
 function loginAsGuest(): void {
   isGuest.value = true
+  sessionStorage.setItem(GUEST_KEY, 'true')
   navigateTo('/tracker')
 }
 
