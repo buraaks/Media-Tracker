@@ -271,15 +271,14 @@
               </div>
               <div>
                 <p class="text-sm font-medium text-white/90">{{ $t('profile.installAppTitle') }}</p>
-                <p class="text-xs text-white/40 mt-0.5" v-if="installPrompt">{{ $t('profile.installAppSubtitle') }}</p>
-                <p class="text-[10px] text-orange-400/70 mt-1 leading-relaxed" v-else>
-                  {{ $t('profile.installManualHint') }}
-                </p>
+                <p class="text-xs text-white/40 mt-0.5">{{ $t('profile.installAppSubtitle') }}</p>
               </div>
             </div>
             <button
-              @click="installPWA"
+              @click="handleInstallClick"
               class="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-xs font-semibold rounded-lg transition-all duration-200 shadow-lg shadow-primary-500/20 cursor-pointer"
+            >
+              {{ $t('profile.installButton') }}
             </button>
           </div>
           <div v-if="!installPrompt" class="mt-4 p-3 bg-white/5 border border-white/8 rounded-lg">
@@ -331,6 +330,20 @@ const importOpen = ref(false)
 const importCategory = ref<MediaCategory>('film')
 
 const { installPrompt, isStandalone, install: installPWA } = usePwa()
+const toast = useToast()
+
+function handleInstallClick() {
+  if (installPrompt.value) {
+    installPWA()
+  } else {
+    toast.add({
+      title: t('profile.installAppTitle'),
+      description: t('profile.installManualHint'),
+      color: 'warning',
+      icon: 'i-lucide-info'
+    })
+  }
+}
 
 function openImport(category: MediaCategory) {
   importCategory.value = category
