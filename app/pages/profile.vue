@@ -278,15 +278,16 @@
               </div>
             </div>
             <button
-              v-if="installPrompt"
               @click="installPWA"
               class="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-xs font-semibold rounded-lg transition-all duration-200 shadow-lg shadow-primary-500/20 cursor-pointer"
-            >
-              {{ $t('profile.installButton') }}
             </button>
-            <div v-else class="flex items-center gap-1.5 px-3 py-1.5 bg-white/5 border border-white/8 rounded-lg">
-              <UIcon name="i-lucide-info" class="size-3.5 text-white/30" />
-              <span class="text-[10px] text-white/40 font-medium whitespace-nowrap uppercase tracking-wider">{{ $t('profile.readyToInstall') }}</span>
+          </div>
+          <div v-if="!installPrompt" class="mt-4 p-3 bg-white/5 border border-white/8 rounded-lg">
+            <div class="flex items-start gap-2">
+              <UIcon name="i-lucide-info" class="size-3.5 text-primary-400 shrink-0 mt-0.5" />
+              <p class="text-[10px] text-white/50 leading-relaxed italic">
+                {{ $t('profile.installManualHint') }}
+              </p>
             </div>
           </div>
         </div>
@@ -329,33 +330,14 @@ const { locale, setLocale } = useI18n()
 const importOpen = ref(false)
 const importCategory = ref<MediaCategory>('film')
 
-const installPrompt = ref<any>(null)
-
-const isStandalone = computed(() => {
-  if (import.meta.server) return false
-  return window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true
-})
+const { installPrompt, isStandalone, install: installPWA } = usePwa()
 
 function openImport(category: MediaCategory) {
   importCategory.value = category
   importOpen.value = true
 }
 
-async function installPWA() {
-  if (!installPrompt.value) return
-  installPrompt.value.prompt()
-  const { outcome } = await installPrompt.value.userChoice
-  if (outcome === 'accepted') {
-    installPrompt.value = null
-  }
-}
-
-onMounted(() => {
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault()
-    installPrompt.value = e
-  })
-})
+// PWA event handled globally in app.vue
 
 // Email Verification State
 const sendingCode = ref(false)
