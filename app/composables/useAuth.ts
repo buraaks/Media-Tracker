@@ -57,6 +57,8 @@ async function login(username: string, password: string): Promise<string | null>
     if (data.success) {
       token.value = data.token
       user.value = data.user
+      isGuest.value = false
+      sessionStorage.removeItem(GUEST_KEY)
       localStorage.setItem(TOKEN_KEY, data.token)
       localStorage.setItem(USER_KEY, JSON.stringify(data.user))
       return null
@@ -84,6 +86,8 @@ async function register(username: string, email: string, password: string): Prom
     if (data.success) {
       token.value = data.token
       user.value = data.user
+      isGuest.value = false
+      sessionStorage.removeItem(GUEST_KEY)
       localStorage.setItem(TOKEN_KEY, data.token)
       localStorage.setItem(USER_KEY, JSON.stringify(data.user))
       return null
@@ -170,6 +174,8 @@ async function loginWithGoogle(credential: string, password?: string): Promise<{
     if (data.success) {
       token.value = data.token
       user.value = data.user
+      isGuest.value = false
+      sessionStorage.removeItem(GUEST_KEY)
       localStorage.setItem(TOKEN_KEY, data.token)
       localStorage.setItem(USER_KEY, JSON.stringify(data.user))
       return { error: null }

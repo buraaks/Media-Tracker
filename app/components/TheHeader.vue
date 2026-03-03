@@ -67,7 +67,12 @@
                 </span>
               </button>
 
-              <NuxtLink v-if="isGuest" to="/register" class="menu-item group w-full mt-1 bg-primary-500/10 hover:bg-primary-500/20">
+              <NuxtLink
+                v-if="isGuest"
+                to="/register"
+                class="menu-item group w-full mt-1 bg-primary-500/10 hover:bg-primary-500/20"
+                @click="exitGuestMode"
+              >
                 <UIcon name="i-lucide-user-plus" class="size-4 shrink-0 text-primary-400" />
                 <span class="text-[13px] text-primary-300 font-medium">{{ $t('auth.signUp') }}</span>
               </NuxtLink>
@@ -107,7 +112,7 @@ const tabs = [
   { key: 'manga' as MediaCategory, i18nKey: 'manga', icon: 'i-lucide-book-open' },
 ]
 
-const { user: authUser, isGuest, logout } = useAuth()
+const { user: authUser, isGuest, logout, exitGuestMode } = useAuth()
 const scrolled = ref(false)
 
 const activeCategory = computed(() => {
