@@ -147,6 +147,13 @@ function loginAsGuest(): void {
   navigateTo('/tracker')
 }
 
+function exitGuestMode(): void {
+  isGuest.value = false
+  sessionStorage.removeItem(GUEST_KEY)
+  const { clearItems } = useMediaStore()
+  clearItems()
+}
+
 function getAuthHeaders(): Record<string, string> {
   const t = token.value
   return t ? { Authorization: `Bearer ${t}` } : {}
@@ -218,5 +225,6 @@ export function useAuth() {
     loginWithGoogle,
     refreshUser,
     loginAsGuest,
+    exitGuestMode,
   }
 }

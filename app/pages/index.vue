@@ -119,8 +119,14 @@
 </template>
 
 <script setup lang="ts">
-const { isAuthenticated, isGuest, loginAsGuest } = useAuth()
+const { isAuthenticated, isGuest, loginAsGuest, exitGuestMode } = useAuth()
 const { locale, setLocale } = useI18n()
+
+onMounted(() => {
+  if (isGuest.value) {
+    exitGuestMode()
+  }
+})
 
 const features = [
   { key: 'film', icon: 'i-lucide-clapperboard', color: '#f87171' },
